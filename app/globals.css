@@ -157,6 +157,7 @@ body {
   font-family: "Parkinsans";
   font-weight: 700;
   line-height: 1.2;
+  font-size: 48;
   background: linear-gradient(180deg, #fff, #ffffff4f);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

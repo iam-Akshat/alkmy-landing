@@ -56,12 +56,12 @@ export default function ScrollSnapPage() {
               timeScale={0.1}
               height={3.5}
               baseWidth={5.5}
-              scale={0.6}
+              scale={0.5}
               hueShift={0}
               colorFrequency={1}
               noise={0}
               glow={0.2}
-              offset={{ y: 250, x: 0 }}
+              offset={{ y: 300, x: 0 }}
             />
           </div>
           <div
@@ -88,7 +88,7 @@ export default function ScrollSnapPage() {
           <div
             style={{
               width: "100%",
-              height: "100vh",
+              height: "80vh",
               position: "absolute",
               bottom: 0,
               zIndex: 10,
@@ -110,8 +110,8 @@ export default function ScrollSnapPage() {
             <div className="absolute top-20 right-10 w-72 h-72 bg-accent rounded-full mix-blend-screen opacity-20 blur-3xl" />
             <div className="absolute bottom-20 left-10 w-72 h-72 bg-accent rounded-full mix-blend-screen opacity-20 blur-3xl" />
           </div>
-          <div className="relative z-10 text-center px-4 max-w-5xl">
-            <h1 className="text-6xl md:text-7xl font-bold text-white mb-2 animate-fade-in-up  headerMainText ">
+          <div className="relative z-10 text-center px-4 max-w-4xl mb-45">
+            <h1 className="text-6xl md:text-7xl font-bold text-white mb-4 animate-fade-in-up  headerMainText ">
               The Agentic AI Co-Pilot for Product Teams
             </h1>
             <p className="text-xl md:text-2xl text-slate-100 mb-8 animate-fade-in-up stagger-1 ">
