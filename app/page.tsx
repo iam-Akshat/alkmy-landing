@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Prism from "../components/Prism";
 import LightRays from "../components/LightRays";
 import CurvedLoop from "../components/CurvedLoop";
-import HeroPipeAnimation from "../components/PipeFlow";
-import HeroPipeAnimationA from "../components/PipeFlowA";
 import AppHero from "../components/PipeFlowGlow";
+import CardNav from "../components/CardNav";
 
 export default function ScrollSnapPage() {
   const [activeSection, setActiveSection] = useState(0);
@@ -36,8 +35,48 @@ export default function ScrollSnapPage() {
     }
   };
 
+  const items = [
+    {
+      label: "About",
+      bgColor: "#0D0716",
+      textColor: "#fff",
+      links: [
+        { label: "Company", ariaLabel: "About Company" },
+        { label: "Careers", ariaLabel: "About Careers" },
+      ],
+    },
+    {
+      label: "Projects",
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "Featured", ariaLabel: "Featured Projects" },
+        { label: "Case Studies", ariaLabel: "Project Case Studies" },
+      ],
+    },
+    {
+      label: "Contact",
+      bgColor: "#271E37",
+      textColor: "#fff",
+      links: [
+        { label: "Email", ariaLabel: "Email us" },
+        { label: "Twitter", ariaLabel: "Twitter" },
+        { label: "LinkedIn", ariaLabel: "LinkedIn" },
+      ],
+    },
+  ];
+
   return (
     <>
+      <CardNav
+        logoAlt="Alkmy AI"
+        items={items}
+        baseColor="#fff"
+        menuColor="#000"
+        buttonBgColor="#111"
+        buttonTextColor="#fff"
+        ease="power3.out"
+      />
       {/* <Header onNavigate={scrollToSection} /> */}
 
       <div className="snap-container" ref={containerRef}>
