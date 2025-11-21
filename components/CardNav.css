@@ -13,13 +13,18 @@
   display: block;
   height: 60px;
   padding: 0;
-  background-color: white;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
   will-change: height;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.9px);
+  -webkit-backdrop-filter: blur(9.9px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .card-nav-top {
@@ -53,10 +58,7 @@
   width: 30px;
   height: 2px;
   background-color: currentColor;
-  transition:
-    transform 0.25s ease,
-    opacity 0.2s ease,
-    margin 0.3s ease;
+  transition: transform 0.25s ease, opacity 0.2s ease, margin 0.3s ease;
   transform-origin: 50% 50%;
 }
 

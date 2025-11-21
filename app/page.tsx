@@ -68,18 +68,16 @@ export default function ScrollSnapPage() {
 
   return (
     <>
-      <CardNav
-        logoAlt="Alkmy AI"
-        items={items}
-        baseColor="#fff"
-        menuColor="#000"
-        buttonBgColor="#111"
-        buttonTextColor="#fff"
-        ease="power3.out"
-      />
-      {/* <Header onNavigate={scrollToSection} /> */}
-
       <div className="snap-container" ref={containerRef}>
+        <CardNav
+          logoAlt="Alkmy AI"
+          items={items}
+          baseColor="#ffffff20"
+          menuColor="white"
+          buttonBgColor="#fff"
+          buttonTextColor="black"
+          ease="power3.out"
+        />
         {/* Hero Section */}
         <section className="header-section bg-gradient-to-br from-slate-900 to-slate-800">
           <div
@@ -133,16 +131,7 @@ export default function ScrollSnapPage() {
               zIndex: 10,
             }}
           >
-            {/* <HeroPipeAnimationA /> */}
             <AppHero />
-            {/* <CurvedLoop
-              marqueeText="Reddit ✦ Slack ✦ Discord ✦ Play Store ✦ App Store ✦"
-              speed={1}
-              curveAmount={500}
-              direction="right"
-              interactive={true}
-              className="marquee"
-            /> */}
           </div>
 
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -150,8 +139,8 @@ export default function ScrollSnapPage() {
             <div className="absolute bottom-20 left-10 w-72 h-72 bg-accent rounded-full mix-blend-screen opacity-20 blur-3xl" />
           </div>
           <div className="relative z-10 text-center px-4 max-w-4xl mb-45">
-            <h1 className="text-6xl md:text-7xl font-bold text-white mb-4 animate-fade-in-up  headerMainText ">
-              The Agentic AI Co-Pilot for Product Teams
+            <h1 className="text-6xl md:text-7xl text-white mb-4 animate-fade-in-up  headerMainText ">
+              The Agentic Co-Pilot for Product Teams
             </h1>
             <p className="text-xl md:text-2xl text-slate-100 mb-8 animate-fade-in-up stagger-1 ">
               Alkmy transforms chaotic customer voice from the deepest corners
