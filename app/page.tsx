@@ -68,7 +68,10 @@ export default function ScrollSnapPage() {
 
   return (
     <>
-      <div className="snap-container" ref={containerRef}>
+      <div
+        className="snap-container bg-gradient-to-br from-slate-900 to-slate-800 text-white"
+        ref={containerRef}
+      >
         <CardNav
           logoAlt="Alkmy AI"
           items={items}
@@ -79,7 +82,7 @@ export default function ScrollSnapPage() {
           ease="power3.out"
         />
         {/* Hero Section */}
-        <section className="header-section bg-gradient-to-br from-slate-900 to-slate-800">
+        <section className="header-section relative">
           <div
             style={{
               width: "100%",
@@ -156,13 +159,13 @@ export default function ScrollSnapPage() {
         </section>
 
         {/* Features Section */}
-        <section className="snap-section bg-gradient-to-br from-white to-slate-50">
+        <section className="snap-section">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full mix-blend-multiply opacity-10 blur-3xl" />
           </div>
 
           <div className="relative z-10 max-w-6xl mx-auto px-4">
-            <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-slate-900 animate-fade-in-up">
+            <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-white animate-fade-in-up">
               Why Scroll Snapping?
             </h2>
 
@@ -189,14 +192,14 @@ export default function ScrollSnapPage() {
               ].map((feature, i) => (
                 <div
                   key={i}
-                  className="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fade-in-up border border-slate-200"
+                  className="p-8 bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fade-in-up border border-slate-700"
                   style={{ animationDelay: `${(i + 1) * 0.15}s` }}
                 >
                   <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3 text-slate-900">
+                  <h3 className="text-2xl font-bold mb-3 text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-slate-600">{feature.description}</p>
+                  <p className="text-slate-300">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -204,10 +207,7 @@ export default function ScrollSnapPage() {
         </section>
 
         {/* Content Section 1 */}
-        <section className="snap-section bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-accent rounded-full mix-blend-screen opacity-30 blur-3xl" />
-          </div>
+        <section className="snap-section">
 
           <div className="relative z-10 text-center max-w-3xl px-4">
             <div className="inline-block px-4 py-2 bg-accent/20 border border-accent rounded-full mb-6 animate-fade-in-scale">
@@ -224,19 +224,19 @@ export default function ScrollSnapPage() {
         </section>
 
         {/* Content Section 2 */}
-        <section className="snap-section bg-gradient-to-br from-blue-50 to-indigo-50">
+        <section className="snap-section">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply opacity-20 blur-3xl" />
-            <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply opacity-20 blur-3xl" />
+            <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-900/20 rounded-full mix-blend-screen opacity-20 blur-3xl" />
+            <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-900/20 rounded-full mix-blend-screen opacity-20 blur-3xl" />
           </div>
 
           <div className="relative z-10 max-w-4xl mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-slate-900 animate-fade-in-up">
+                <h2 className="text-5xl font-bold mb-6 text-white animate-fade-in-up">
                   Beautiful Transitions
                 </h2>
-                <p className="text-lg text-slate-600 mb-8 animate-fade-in-up stagger-1">
+                <p className="text-lg text-slate-300 mb-8 animate-fade-in-up stagger-1">
                   Watch as content fades in, scales up, and slides into view.
                   Every interaction is crafted for delight.
                 </p>
@@ -248,14 +248,14 @@ export default function ScrollSnapPage() {
                 </button>
               </div>
               <div className="animate-fade-in-scale">
-                <div className="w-full aspect-square bg-gradient-to-br from-blue-400 to-indigo-600 rounded-2xl shadow-2xl" />
+                <div className="w-full aspect-square bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl shadow-2xl" />
               </div>
             </div>
           </div>
         </section>
 
         {/* Final Section */}
-        <section className="snap-section bg-gradient-to-br from-slate-900 to-slate-800">
+        <section className="snap-section">
           <div className="relative z-10 text-center max-w-3xl px-4">
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
               Ready to scroll?
