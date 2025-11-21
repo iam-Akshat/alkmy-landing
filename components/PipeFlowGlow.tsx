@@ -313,7 +313,15 @@ export default function AppHero() {
 
               {/* One mask per path */}
               {animatedPaths.map((path) => (
-                <mask key={`mask-${path.id}`} id={`pulse-mask-${path.id}`}>
+                <mask
+                  key={`mask-${path.id}`}
+                  id={`pulse-mask-${path.id}`}
+                  maskUnits="userSpaceOnUse"
+                  x={0}
+                  y={0}
+                  width={VIEW_WIDTH}
+                  height={VIEW_HEIGHT}
+                >
                   <rect
                     className={`mask-rect ${animateLines ? "running" : ""}`}
                     style={{ animationDelay: `${path.delay}s` }}
@@ -327,7 +335,14 @@ export default function AppHero() {
               ))}
 
               {/* Mask for the yellow insight pulse */}
-              <mask id="pulse-mask-insight">
+              <mask
+                id="pulse-mask-insight"
+                maskUnits="userSpaceOnUse"
+                x={0}
+                y={0}
+                width={VIEW_WIDTH}
+                height={VIEW_HEIGHT}
+              >
                 <rect
                   className={`mask-rect-insight ${
                     animateLines ? "running" : ""
