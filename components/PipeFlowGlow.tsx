@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, JSX } from "react";
+import React, { useState, useEffect, JSX, useRef } from "react";
 import {
   Brain,
   BarChart,
@@ -29,44 +29,52 @@ const COLOR_MAP = {
   red: { bg: "bg-red-500", glow: "shadow-red-500/70", hex: "#ef4444" },
 } as const;
 
-// Define the static paths
+// Dimensions for the vertical layout
+const VIEW_WIDTH = 600;
+const VIEW_HEIGHT = 800;
+const CENTER_X = 300;
+const CENTER_Y = 400;
+
+// Define the static paths (Vertical Flow)
+// Start at y=0, converge to (300, 400)
 const staticPaths = [
   {
     id: "path-1",
-    d: "M 0 50 Q 350 100 500 250",
+    d: "M 100 0 Q 200 200 300 400",
     icon: "brain",
     colorKey: "purple" as const,
   },
   {
     id: "path-2",
-    d: "M 0 150 Q 350 150 500 250",
+    d: "M 200 0 Q 250 200 300 400",
     icon: "chart",
     colorKey: "blue" as const,
   },
   {
     id: "path-3",
-    d: "M 0 250 Q 350 250 500 250",
+    d: "M 300 0 Q 300 200 300 400",
     icon: "file",
     colorKey: "green" as const,
   },
   {
     id: "path-4",
-    d: "M 0 350 Q 350 350 500 250",
+    d: "M 400 0 Q 350 200 300 400",
     icon: "db",
     colorKey: "yellow" as const,
   },
   {
     id: "path-5",
-    d: "M 0 450 Q 350 400 500 250",
+    d: "M 500 0 Q 400 200 300 400",
     icon: "code",
     colorKey: "red" as const,
   },
 ];
 
-// Path for the outgoing "insight"
+// Path for the outgoing "insight" (Vertical)
+// Starts from center bottom (400 + 26) to bottom (800)
 const insightPath = {
   id: "path-insight",
-  d: "M 526 250 L 1000 250",
+  d: "M 300 426 L 300 800",
 };
 
 type AnimatedPath = (typeof staticPaths)[number] & {
@@ -79,6 +87,8 @@ export default function AppHero() {
   const [animatedPaths, setAnimatedPaths] = useState<AnimatedPath[]>([]);
   const [animateLines, setAnimateLines] = useState(false);
   const [insightDelay, setInsightDelay] = useState<number | null>(null);
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Generate random durations and delays only on the client
@@ -108,19 +118,49 @@ export default function AppHero() {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  // Handle Responsive Scaling
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        const parent = containerRef.current.parentElement;
+        if (parent) {
+          const availableWidth = parent.clientWidth;
+          const availableHeight = parent.clientHeight;
+          
+          // Scale based on width, but also ensure it fits height if needed?
+          // For now, prioritize width fit as it's a vertical scroll page usually.
+          // Add some padding (e.g. 32px)
+          const widthScale = Math.min(1, (availableWidth - 32) / VIEW_WIDTH);
+          
+          // Optional: Check height fit too if we want it fully contained
+          // const heightScale = Math.min(1, availableHeight / VIEW_HEIGHT);
+          // const newScale = Math.min(widthScale, heightScale);
+          
+          setScale(widthScale);
+        }
+      }
+    };
+
+    // Initial check
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Static keyframes + utility styles
   const keyframeStyles = `
-    /* Edge fade for the entire SVG (lines) */
+    /* Edge fade for the entire SVG (lines) - Vertical */
     .edge-fade-mask {
       -webkit-mask-image: linear-gradient(
-        to right,
+        to bottom,
         transparent 0%,
         black 15%,
         black 85%,
         transparent 100%
       );
       mask-image: linear-gradient(
-        to right,
+        to bottom,
         transparent 0%,
         black 15%,
         black 85%,
@@ -130,31 +170,27 @@ export default function AppHero() {
       mask-repeat: no-repeat;
     }
 
-    /* Animation for the "pulse" effect on the INCOMING lines */
+    /* Animation for the "pulse" effect on the INCOMING lines (Vertical) */
     @keyframes slideMask {
       0% {
-        transform: translateX(-100%);
+        transform: translateY(-100%);
       }
       100% {
-        transform: translateX(100%);
+        transform: translateY(100%);
       }
     }
 
-    /* --- NEW --- */
-    /* Animation for the "pulse" effect on the OUTGOING line */
-    /* This moves the pulse bright spot from x=526 to x=1000 */
+    /* Animation for the "pulse" effect on the OUTGOING line (Vertical) */
     @keyframes slideMaskInsight {
       0% {
-        /* Bright spot (at 500px) at path start (526px) -> rect X = 526 - 500 = 26px */
-        transform: translateX(26px);
+        /* Bright spot (at 400px) at path start (426px) -> rect Y = 426 - 400 = 26px */
+        transform: translateY(26px);
       }
       100% {
-        /* Bright spot (at 500px) at path end (1000px) -> rect X = 1000 - 500 = 500px */
-        transform: translateX(500px);
+        /* Bright spot (at 400px) at path end (800px) -> rect Y = 800 - 400 = 400px */
+        transform: translateY(400px);
       }
     }
-    /* --- END NEW --- */
-
 
     /* Base class for INCOMING mask rectangles */
     .mask-rect {
@@ -163,23 +199,17 @@ export default function AppHero() {
       animation-fill-mode: backwards;
     }
 
-    /* --- NEW --- */
     /* Specific class for the OUTGOING insight mask */
     .mask-rect-insight {
-      /* Match the particle's 5s duration and ease-in-out */
       animation: slideMaskInsight 5s ease-in-out infinite;
       animation-play-state: paused;
       animation-fill-mode: backwards;
     }
-    /* --- END NEW --- */
 
-    /* --- MODIFIED --- */
-    /* Class to start BOTH types of animations */
     .mask-rect.running,
     .mask-rect-insight.running {
       animation-play-state: running;
     }
-    /* --- END MODIFIED --- */
 
     /* Animation for the incoming icons (maintains color) */
     @keyframes move-on-path {
@@ -243,28 +273,36 @@ export default function AppHero() {
     .join("\n");
 
   return (
-    <div className="relative flex items-center justify-center w-full min-h-screen overflow-hidden text-white">
+    <div className="relative flex items-center justify-center w-full h-full overflow-hidden text-white">
       {/* Inject all styles */}
       <style>{keyframeStyles + dynamicStyles}</style>
 
-      {/* Main container for the visualization */}
-      <div className="relative w-[1000px] h-[500px]">
+      {/* Main container for the visualization - Scaled for responsiveness */}
+      <div
+        ref={containerRef}
+        className="relative origin-center"
+        style={{
+          width: `${VIEW_WIDTH}px`,
+          height: `${VIEW_HEIGHT}px`,
+          transform: `scale(${scale})`,
+        }}
+      >
         {/* SVG + lines, wrapped in edge fade mask */}
         <div className="absolute inset-0 edge-fade-mask pointer-events-none">
           <svg
-            viewBox="0 0 1000 500"
+            viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
             className="w-full h-full"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              {/* Single white pulse gradient used by all masks */}
+              {/* Single white pulse gradient used by all masks (Vertical) */}
               <linearGradient
                 id="pulse-gradient"
-                x1="0%"
-                y1="50%"
-                x2="100%"
-                y2="50%"
+                x1="50%"
+                y1="0%"
+                x2="50%"
+                y2="100%"
               >
                 <stop offset="0%" stopColor="white" stopOpacity="0" />
                 <stop offset="40%" stopColor="white" stopOpacity="0" />
@@ -281,8 +319,8 @@ export default function AppHero() {
                     style={{ animationDelay: `${path.delay}s` }}
                     x="0"
                     y="0"
-                    width="1000"
-                    height="500"
+                    width={VIEW_WIDTH}
+                    height={VIEW_HEIGHT}
                     fill="url(#pulse-gradient)"
                   />
                 </mask>
@@ -290,8 +328,6 @@ export default function AppHero() {
 
               {/* Mask for the yellow insight pulse */}
               <mask id="pulse-mask-insight">
-                {/* --- MODIFIED --- */}
-                {/* Use the new insight-specific class */}
                 <rect
                   className={`mask-rect-insight ${
                     animateLines ? "running" : ""
@@ -301,11 +337,10 @@ export default function AppHero() {
                   }}
                   x="0"
                   y="0"
-                  width="1000"
-                  height="500"
+                  width={VIEW_WIDTH}
+                  height={VIEW_HEIGHT}
                   fill="url(#pulse-gradient)"
                 />
-                {/* --- END MODIFIED --- */}
               </mask>
             </defs>
 
@@ -385,8 +420,8 @@ export default function AppHero() {
                      shadow-2xl
                      flex items-center justify-center"
           style={{
-            top: "224px",
-            left: "474px",
+            top: `${CENTER_Y - 26}px`,
+            left: `${CENTER_X - 26}px`,
             width: "52px",
             height: "52px",
           }}
