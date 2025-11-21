@@ -153,7 +153,7 @@ export default function ScrollSnapPage() {
               onClick={() => scrollToSection(1)}
               className="px-8 py-3 bg-accent text-accent-foreground rounded-full font-semibold hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 animate-fade-in-up stagger-2"
             >
-              Explore
+              Know More
             </button>
           </div>
         </section>

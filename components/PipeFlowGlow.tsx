@@ -156,14 +156,14 @@ export default function AppHero() {
         to bottom,
         transparent 0%,
         black 15%,
-        black 85%,
+        black 50%,
         transparent 100%
       );
       mask-image: linear-gradient(
         to bottom,
         transparent 0%,
         black 15%,
-        black 85%,
+        black 50%,
         transparent 100%
       );
       -webkit-mask-repeat: no-repeat;
@@ -237,17 +237,17 @@ export default function AppHero() {
     @keyframes move-insight {
       0% {
         offset-distance: 0%;
-        opacity: 0;
-        transform: scale(0.5);
+        opacity: 1;
+        transform: scale(1);
       }
-      10%, 80% {
+      30% {
         opacity: 1;
         transform: scale(1);
       }
       100% {
         offset-distance: 100%;
         opacity: 0;
-        transform: scale(0.5);
+        transform: scale(0);
       }
     }
 
