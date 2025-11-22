@@ -150,18 +150,18 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .header-section {
-  height: 150vh;
+  height: 180vh;
   /* scroll-snap-align: start;
   scroll-snap-stop: always; */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .headerMainText {

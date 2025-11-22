@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Ghost, Search, AlertTriangle } from "lucide-react";
+import { ArrowRight, Ghost, Search, AlertTriangle, MessageSquare, LayoutGrid, Eye } from "lucide-react";
 import Prism from "../components/Prism";
 import TiltedCard from "../components/TiltedCard";
 import LightRays from "../components/LightRays";
@@ -10,6 +10,7 @@ import AppHero from "../components/PipeFlowGlow";
 import CardNav from "../components/CardNav";
 import MagicBento from "../components/MagicBento";
 import { Footer } from "../components/Footer";
+import CardSwap, { Card } from "../components/CardSwap";
 
 export default function ScrollSnapPage() {
   const [activeSection, setActiveSection] = useState(0);
@@ -90,8 +91,9 @@ export default function ScrollSnapPage() {
           <div
             style={{
               width: "100%",
-              height: "150vh",
+              height: "180vh",
               position: "absolute",
+              top: "-15vh",
               zIndex: 10,
             }}
           >
@@ -111,7 +113,7 @@ export default function ScrollSnapPage() {
           <div
             style={{
               width: "100%",
-              height: "150vh",
+              height: "180vh",
               position: "absolute",
               zIndex: 5,
             }}
@@ -132,20 +134,86 @@ export default function ScrollSnapPage() {
           <div
             style={{
               width: "100%",
-              height: "78vh",
+              height: "100vh",
               position: "absolute",
-              bottom: 0,
+              top: "78vh",
               zIndex: 10,
             }}
           >
             <AppHero />
           </div>
 
+          <div
+            style={{
+              position: "absolute",
+              bottom: "0%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 20,
+            }}
+          >
+            <TiltedCard
+              imageSrc="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              altText="Churn Risk Card"
+              captionText=""
+              containerHeight="200px"
+              containerWidth="480px"
+              imageHeight="160px"
+              imageWidth="480px"
+              rotateAmplitude={10}
+              scaleOnHover={1.05}
+              showMobileWarning={false}
+              showTooltip={false}
+              displayOverlayContent={true}
+              overlayContent={
+                <div className="w-full h-full bg-[#0f1117] rounded-[20px] p-6 border border-slate-800 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 via-purple-500/50 to-blue-500/50" />
+                  
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        <span className="text-[10px] font-bold tracking-wider text-red-400 uppercase">URGENT • CHURN RISK</span>
+                      </div>
+                      <h3 className="text-lg font-bold text-white leading-tight">Checkout Failure on iOS 17</h3>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg px-3 py-1.5 border border-slate-700 backdrop-blur-sm">
+                      <div className="text-[10px] text-slate-400 uppercase tracking-wider text-center">IMPACT</div>
+                      <div className="text-sm font-bold text-indigo-400">$14k<span className="text-slate-500 font-normal">/day</span></div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 mb-4">
+                    <div className="flex gap-3 items-start">
+                      <MessageSquare className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" />
+                      <p className="text-xs text-slate-300 italic leading-relaxed">"I've tried to buy the pro plan 3 times. It just freezes. Guess I'll use the other app." <span className="text-slate-600 not-italic block mt-1">— via Reddit</span></p>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <AlertTriangle className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" />
+                      <p className="text-xs text-slate-300 italic leading-relaxed">"Support ticket #4920: Customer asking for refund due to crash..." <span className="text-slate-600 not-italic block mt-1">— via Zendesk</span></p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 mt-auto">
+                    <button className="flex items-center justify-center gap-2 bg-[#6366f1] hover:bg-[#5558dd] text-white text-xs font-semibold py-2 rounded-lg transition-colors shadow-lg shadow-indigo-500/20">
+                      <LayoutGrid className="w-3 h-3" />
+                      Push to Jira
+                    </button>
+                    <button className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-lg border border-slate-700 transition-colors">
+                      <Eye className="w-3 h-3" />
+                      View Analysis
+                    </button>
+                  </div>
+                </div>
+              }
+            />
+          </div>
+
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 right-10 w-72 h-72 bg-accent rounded-full mix-blend-screen opacity-20 blur-3xl" />
             <div className="absolute bottom-50 left-10 w-72 h-72 bg-accent rounded-full mix-blend-screen opacity-20 blur-3xl" />
           </div>
-          <div className="relative z-10 text-center px-4 max-w-4xl mb-45">
+          <div className="relative z-10 text-center px-4 max-w-4xl bottom-40 mb-16">
             <h1 className="text-6xl md:text-7xl text-white mb-4 animate-fade-in-up  headerMainText ">
               The Agentic Co-Pilot <br /> for Product Teams
             </h1>
@@ -168,7 +236,7 @@ export default function ScrollSnapPage() {
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full mix-blend-multiply opacity-10 blur-3xl" />
           </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="relative z-10 max-w-6xl mx-auto px-4 mt-40">
             <div className="text-center mb-16 max-w-6xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
                 Most PMs aren't building products. <br />
@@ -260,38 +328,38 @@ export default function ScrollSnapPage() {
         <section className="snap-section">
 
           <div className="relative z-10 text-center max-w-6xl px-4">
+                        <div className="text-center mb-4 max-w-6xl mx-auto">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
+                Why Choose <span className="text-[#C39B65]">Alkmy Intelligence?</span>
+              </h2>
+            </div>
             <MagicBento />
           </div>
         </section>
 
         {/* Content Section 2 */}
         <section className="snap-section">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-900/20 rounded-full mix-blend-screen opacity-20 blur-3xl" />
-            <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-900/20 rounded-full mix-blend-screen opacity-20 blur-3xl" />
-          </div>
 
-          <div className="relative z-10 max-w-4xl mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-5xl font-bold mb-6 text-white animate-fade-in-up">
-                  Beautiful Transitions
-                </h2>
-                <p className="text-lg text-slate-300 mb-8 animate-fade-in-up stagger-1">
-                  Watch as content fades in, scales up, and slides into view.
-                  Every interaction is crafted for delight.
-                </p>
-                <button
-                  onClick={() => scrollToSection(5)}
-                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:shadow-lg transition-all duration-300 animate-fade-in-up stagger-2"
-                >
-                  Continue
-                </button>
-              </div>
-              <div className="animate-fade-in-scale">
-                <div className="w-full aspect-square bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl shadow-2xl" />
-              </div>
-            </div>
+          <div className="relative z-10 max-w-6xl mx-auto px-4">
+            <CardSwap
+              cardDistance={60}
+              verticalDistance={70}
+              delay={5000}
+              pauseOnHover={false}
+            >
+              <Card>
+                <h3>Card 1</h3>
+                <p>Your content here</p>
+              </Card>
+              <Card>
+                <h3>Card 2</h3>
+                <p>Your content here</p>
+              </Card>
+              <Card>
+                <h3>Card 3</h3>
+                <p>Your content here</p>
+              </Card>
+            </CardSwap>
           </div>
         </section>
 
