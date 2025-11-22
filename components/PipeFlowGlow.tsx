@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, JSX, useRef } from "react";
+import React, { useState, useEffect, JSX, useRef, useMemo } from "react";
 import {
   Brain,
   BarChart,
@@ -125,17 +125,10 @@ export default function AppHero() {
         const parent = containerRef.current.parentElement;
         if (parent) {
           const availableWidth = parent.clientWidth;
-          const availableHeight = parent.clientHeight;
-          
           // Scale based on width, but also ensure it fits height if needed?
           // For now, prioritize width fit as it's a vertical scroll page usually.
           // Add some padding (e.g. 32px)
           const widthScale = Math.min(1, (availableWidth - 32) / VIEW_WIDTH);
-          
-          // Optional: Check height fit too if we want it fully contained
-          // const heightScale = Math.min(1, availableHeight / VIEW_HEIGHT);
-          // const newScale = Math.min(widthScale, heightScale);
-          
           setScale(widthScale);
         }
       }
@@ -148,134 +141,139 @@ export default function AppHero() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Static keyframes + utility styles
-  const keyframeStyles = `
-    /* Edge fade for the entire SVG (lines) - Vertical */
-    .edge-fade-mask {
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 50%,
-        transparent 100%
-      );
-      mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 50%,
-        transparent 100%
-      );
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-    }
+  // Memoize styles to prevent re-calculation on every render
+  const styles = useMemo(() => {
+    const keyframeStyles = `
+      /* Edge fade for the entire SVG (lines) - Vertical */
+      .edge-fade-mask {
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          black 15%,
+          black 50%,
+          transparent 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          black 15%,
+          black 50%,
+          transparent 100%
+        );
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+      }
 
-    /* Animation for the "pulse" effect on the INCOMING lines (Vertical) */
-    @keyframes slideMask {
-      0% {
-        transform: translateY(-100%);
+      /* Animation for the "pulse" effect on the INCOMING lines (Vertical) */
+      @keyframes slideMask {
+        0% {
+          transform: translateY(-100%);
+        }
+        100% {
+          transform: translateY(100%);
+        }
       }
-      100% {
-        transform: translateY(100%);
-      }
-    }
 
-    /* Animation for the "pulse" effect on the OUTGOING line (Vertical) */
-    @keyframes slideMaskInsight {
-      0% {
-        /* Bright spot (at 400px) at path start (426px) -> rect Y = 426 - 400 = 26px */
-        transform: translateY(26px);
+      /* Animation for the "pulse" effect on the OUTGOING line (Vertical) */
+      @keyframes slideMaskInsight {
+        0% {
+          transform: translateY(26px);
+        }
+        100% {
+          transform: translateY(400px);
+        }
       }
-      100% {
-        /* Bright spot (at 400px) at path end (800px) -> rect Y = 800 - 400 = 400px */
-        transform: translateY(400px);
-      }
-    }
 
-    /* Base class for INCOMING mask rectangles */
-    .mask-rect {
-      animation: slideMask 4s ease-in-out infinite;
-      animation-play-state: paused;
-      animation-fill-mode: backwards;
-    }
+      /* Base class for INCOMING mask rectangles */
+      .mask-rect {
+        animation: slideMask 4s ease-in-out infinite;
+        animation-play-state: paused;
+        animation-fill-mode: backwards;
+        will-change: transform;
+      }
 
-    /* Specific class for the OUTGOING insight mask */
-    .mask-rect-insight {
-      animation: slideMaskInsight 5s ease-in-out infinite;
-      animation-play-state: paused;
-      animation-fill-mode: backwards;
-    }
+      /* Specific class for the OUTGOING insight mask */
+      .mask-rect-insight {
+        animation: slideMaskInsight 5s ease-in-out infinite;
+        animation-play-state: paused;
+        animation-fill-mode: backwards;
+        will-change: transform;
+      }
 
-    .mask-rect.running,
-    .mask-rect-insight.running {
-      animation-play-state: running;
-    }
+      .mask-rect.running,
+      .mask-rect-insight.running {
+        animation-play-state: running;
+      }
 
-    /* Animation for the incoming icons (maintains color) */
-    @keyframes move-on-path {
-      0% {
-        offset-distance: 0%;
-        opacity: 0;
-        transform: scale(1);
+      /* Animation for the incoming icons (maintains color) */
+      @keyframes move-on-path {
+        0% {
+          offset-distance: 0%;
+          opacity: 0;
+          transform: scale(1);
+        }
+        10% {
+          opacity: 1;
+        }
+        95% {
+          offset-distance: 100%;
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        100% {
+          offset-distance: 100%;
+          opacity: 0;
+          transform: scale(0);
+        }
       }
-      10% {
-        opacity: 1;
-      }
-      95% {
-        offset-distance: 100%;
-        transform: scale(0.5);
-        opacity: 0;
-      }
-      100% {
-        offset-distance: 100%;
-        opacity: 0;
-        transform: scale(0);
-      }
-    }
 
-    /* Animation for the outgoing "insight" */
-    @keyframes move-insight {
-      0% {
-        offset-distance: 0%;
-        opacity: 1;
-        transform: scale(1);
+      /* Animation for the outgoing "insight" */
+      @keyframes move-insight {
+        0% {
+          offset-distance: 0%;
+          opacity: 1;
+          transform: scale(1);
+        }
+        30% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        100% {
+          offset-distance: 100%;
+          opacity: 0;
+          transform: scale(0);
+        }
       }
-      30% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        offset-distance: 100%;
-        opacity: 0;
-        transform: scale(0);
-      }
-    }
 
-    /* Class for the insight particle */
-    .particle-insight {
-      offset-path: path("${insightPath.d}");
-      animation: move-insight 5s ease-in-out infinite;
-      animation-delay: ${insightDelay ?? 9999}s;
-    }
-  `;
-
-  // Dynamic styles based on the randomized paths
-  const dynamicStyles = animatedPaths
-    .map(
-      (path) => `
-      .particle-${path.id} {
-        offset-path: path("${path.d}");
-        animation: move-on-path ${path.duration}s ease-in infinite;
-        animation-delay: ${path.delay}s;
+      /* Class for the insight particle */
+      .particle-insight {
+        offset-path: path("${insightPath.d}");
+        animation: move-insight 5s ease-in-out infinite;
+        animation-delay: ${insightDelay ?? 9999}s;
+        will-change: transform, opacity, offset-distance;
       }
-    `
-    )
-    .join("\n");
+    `;
+
+    const dynamicStyles = animatedPaths
+      .map(
+        (path) => `
+        .particle-${path.id} {
+          offset-path: path("${path.d}");
+          animation: move-on-path ${path.duration}s ease-in infinite;
+          animation-delay: ${path.delay}s;
+          will-change: transform, opacity, offset-distance;
+        }
+      `
+      )
+      .join("\n");
+
+    return keyframeStyles + dynamicStyles;
+  }, [animatedPaths, insightDelay]);
 
   return (
     <div className="relative flex items-center justify-center w-full h-full overflow-hidden text-white">
       {/* Inject all styles */}
-      <style>{keyframeStyles + dynamicStyles}</style>
+      <style>{styles}</style>
 
       {/* Main container for the visualization - Scaled for responsiveness */}
       <div
@@ -284,7 +282,7 @@ export default function AppHero() {
         style={{
           width: `${VIEW_WIDTH}px`,
           height: `${VIEW_HEIGHT}px`,
-          transform: `scale(${scale})`,
+          transform: `scale(${scale}) translate3d(0,0,0)`, // Force hardware acceleration
         }}
       >
         {/* SVG + lines, wrapped in edge fade mask */}
@@ -294,6 +292,7 @@ export default function AppHero() {
             className="w-full h-full"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            style={{ willChange: "transform" }} 
           >
             <defs>
               {/* Single white pulse gradient used by all masks (Vertical) */}

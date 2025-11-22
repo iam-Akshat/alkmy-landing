@@ -12,7 +12,7 @@ interface TiltedCardProps {
   rotateAmplitude?: number;
   showMobileWarning?: boolean;
   showTooltip?: boolean;
-  overlayContent?: ReactNode;
+  overlayContent?: ReactNode | JSX.Element;
   displayOverlayContent?: boolean;
 }
 

@@ -11,6 +11,7 @@ import CardNav from "../components/CardNav";
 import MagicBento from "../components/MagicBento";
 import { Footer } from "../components/Footer";
 import CardSwap, { Card } from "../components/CardSwap";
+import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
 
 export default function ScrollSnapPage() {
   const [activeSection, setActiveSection] = useState(0);
@@ -132,34 +133,26 @@ export default function ScrollSnapPage() {
             />
           </div>
           <div
+            className="absolute w-full z-10"
             style={{
-              width: "100%",
               height: "100vh",
-              position: "absolute",
               top: "78vh",
-              zIndex: 10,
             }}
           >
             <AppHero />
           </div>
 
           <div
-            style={{
-              position: "absolute",
-              bottom: "0%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 20,
-            }}
+            className="absolute left-1/2 -translate-x-1/2 z-20 w-[90vw] max-w-[480px] bottom-[5%] md:bottom-0"
           >
             <TiltedCard
               imageSrc="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
               altText="Churn Risk Card"
               captionText=""
               containerHeight="200px"
-              containerWidth="480px"
+              containerWidth="100%"
               imageHeight="160px"
-              imageWidth="480px"
+              imageWidth="100%"
               rotateAmplitude={10}
               scaleOnHover={1.05}
               showMobileWarning={false}
@@ -236,19 +229,19 @@ export default function ScrollSnapPage() {
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full mix-blend-multiply opacity-10 blur-3xl" />
           </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto px-4 mt-40">
+          <div className="relative z-10 max-w-6xl mx-auto px-4 mt-32">
             <div className="text-center mb-16 max-w-6xl mx-auto">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-16 animate-fade-in-up">
                 The Cost of being Deaf <br />
                 <span className="text-slate-500">Stop playing detective. Be Ahead.</span>
               </h2>
               <p className="text-xl text-slate-400 animate-fade-in-up stagger-1">
-                You're drowning in data but starving for insight. The "Voice of the Customer" is shattered
-                across a thousand Reddit threads, support tickets, and angry tweets. You're essentially flying blind.
+                You're either unaware of what your customers are saying or drowning in data but starving for insight.<br/><br/> The "Voice of the Customer" is shattered
+                across a thousands of Reddit threads, Social Media, Support Tickets, and Angry Tweets.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
               <TiltedCard
                 imageSrc="https://placehold.co/300x300/0f172a/0f172a.png"
                 altText="Silent Churn"
@@ -339,9 +332,14 @@ export default function ScrollSnapPage() {
 
         {/* Content Section 2 */}
         <section className="snap-section">
-
-          <div className="relative z-10 max-w-6xl mx-auto px-4">
-            <CardSwap
+          
+          <div className="relative z-10 max-w-6xl mx-auto px-4 mt-32">
+            <div className="text-center mb-4 max-w-6xl mx-auto">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
+                Why Choose <span className="text-[#C39B65]">Alkmy Intelligence?</span>
+              </h2>
+            </div>
+            {/* <CardSwap
               cardDistance={60}
               verticalDistance={70}
               delay={5000}
@@ -359,7 +357,7 @@ export default function ScrollSnapPage() {
                 <h3>Card 3</h3>
                 <p>Your content here</p>
               </Card>
-            </CardSwap>
+            </CardSwap> */}
           </div>
         </section>
 

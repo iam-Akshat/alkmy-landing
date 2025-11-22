@@ -8,6 +8,22 @@ const springValues = {
   mass: 2
 };
 
+/**
+ * @param {Object} props
+ * @param {string} props.imageSrc
+ * @param {string} [props.altText]
+ * @param {string} [props.captionText]
+ * @param {string} [props.containerHeight]
+ * @param {string} [props.containerWidth]
+ * @param {string} [props.imageHeight]
+ * @param {string} [props.imageWidth]
+ * @param {number} [props.scaleOnHover]
+ * @param {number} [props.rotateAmplitude]
+ * @param {boolean} [props.showMobileWarning]
+ * @param {boolean} [props.showTooltip]
+ * @param {React.ReactNode} [props.overlayContent]
+ * @param {boolean} [props.displayOverlayContent]
+ */
 export default function TiltedCard({
   imageSrc,
   altText = 'Tilted card image',

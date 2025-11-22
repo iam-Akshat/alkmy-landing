@@ -45,12 +45,20 @@ const Prism = ({
     const INERT = Math.max(0, Math.min(1, inertia || 0.12));
 
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const renderer = new Renderer({
-      dpr,
-      alpha: transparent,
-      antialias: false
-    });
-    const gl = renderer.gl;
+    let renderer;
+    let gl;
+    try {
+      renderer = new Renderer({
+        dpr,
+        alpha: transparent,
+        antialias: false
+      });
+      gl = renderer.gl;
+    } catch (e) {
+      console.warn('WebGL not supported or context creation failed:', e);
+      return;
+    }
+
     gl.disable(gl.DEPTH_TEST);
     gl.disable(gl.CULL_FACE);
     gl.disable(gl.BLEND);
@@ -62,6 +70,11 @@ const Prism = ({
       height: '100%',
       display: 'block'
     });
+    
+    // Clear any existing canvas
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
     container.appendChild(gl.canvas);
 
     const vertex = /* glsl */ `
@@ -409,7 +422,12 @@ const Prism = ({
         if (io) io.disconnect();
         delete container.__prismIO;
       }
-      if (gl.canvas.parentElement === container) container.removeChild(gl.canvas);
+      if (gl && gl.canvas && gl.canvas.parentElement === container) {
+        // Try to lose context to free memory if possible, though OGL might handle this
+        const ext = gl.getExtension('WEBGL_lose_context');
+        if (ext) ext.loseContext();
+        container.removeChild(gl.canvas);
+      }
     };
   }, [
     height,
