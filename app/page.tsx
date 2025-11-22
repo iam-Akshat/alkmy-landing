@@ -12,6 +12,186 @@ import MagicBento from "../components/MagicBento";
 import { Footer } from "../components/Footer";
 import CardSwap, { Card } from "../components/CardSwap";
 import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
+import { Zap } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+const MockBar = ({ label, width, color }: { label: string, width: string, color: string }) => (
+  <div className="group/bar">
+    <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+      <span>{label}</span>
+      <span className="opacity-0 group-hover/bar:opacity-100 transition-opacity">{width}</span>
+    </div>
+    <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+      <motion.div 
+        initial={{ width: 0 }}
+        whileInView={{ width }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className={`h-full ${color} rounded-full`} 
+      />
+    </div>
+  </div>
+);
+
+const SolutionsSection = () => {
+  const [activeTab, setActiveTab] = useState<'pm' | 'ceo' | 'comp'>('pm');
+
+  const content = {
+    pm: {
+      title: "The Roadmap Architect",
+      subtitle: "For Product Managers",
+      tagline: "Ship with certainty.",
+      desc: "Stop fighting for resources based on 'I think'. Walk into the meeting with 'The data says'. Alkmy ranks every request by potential revenue impact.",
+      stats: [
+        { label: "Planning Time", val: "-80%" },
+        { label: "Feature Adoption", val: "+45%" }
+      ],
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    ceo: {
+      title: "The Bullshit Detector",
+      subtitle: "For the CEO",
+      tagline: "Unfiltered truth.",
+      desc: "Middle management sanitizes the bad news. Alkmy gives you the raw, unfiltered pulse of your business. See the fires before they burn the house down.",
+      stats: [
+        { label: "Churn Prediction", val: "92%" },
+        { label: "Crisis Alerts", val: "Real-time" }
+      ],
+      gradient: "from-violet-500 to-fuchsia-600"
+    },
+    comp: {
+      title: "The War Room",
+      subtitle: "For Strategists",
+      tagline: "Offensive intelligence.",
+      desc: "Your competitor's unhappy users are your best leads. We track their crashes, their pricing complaints, and their missing features so you can steal their market share.",
+      stats: [
+        { label: "Competitor Insights", val: "Live" },
+        { label: "Opportunity Score", val: "High" }
+      ],
+      gradient: "from-rose-500 to-orange-600"
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto w-full">
+      
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+         <div>
+           <div className="text-indigo-500 font-mono text-sm font-bold uppercase tracking-widest mb-2">Intelligence Suite</div>
+           <h2 className="text-4xl md:text-5xl font-bold text-white">Three lenses.<br/>One source of truth.</h2>
+         </div>
+         
+         {/* Tab Switcher */}
+         <div className="flex bg-slate-900 p-1 rounded-xl border border-white/10 overflow-x-auto max-w-full">
+            {(Object.keys(content) as Array<keyof typeof content>).map((key) => (
+              <button 
+                key={key}
+                onClick={() => setActiveTab(key)}
+                className={`px-6 py-3 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
+                  activeTab === key 
+                  ? 'bg-white text-slate-950 shadow-lg' 
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                {content[key].subtitle}
+              </button>
+            ))}
+         </div>
+      </div>
+
+      {/* Feature Display */}
+      <div className="bg-slate-900 rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+         <div className="grid md:grid-cols-12 min-h-[500px]">
+            
+            {/* Visual Side (Left) */}
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeTab}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className={`md:col-span-7 relative bg-gradient-to-br ${content[activeTab].gradient} p-10 flex items-center justify-center overflow-hidden group`}
+              >
+                 {/* Decorative Circles */}
+                 <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20 transition-transform duration-700 group-hover:scale-110"></div>
+                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full blur-2xl -ml-20 -mb-20"></div>
+                 
+                 {/* Mock Interface */}
+                 <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="relative w-full max-w-md bg-slate-950/90 backdrop-blur-xl rounded-xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 transform transition-transform duration-500 group-hover:-translate-y-2"
+                 >
+                    {/* Mock Header */}
+                    <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                       <div className="flex gap-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                       </div>
+                       <div className="text-[10px] font-mono text-slate-500">ALKMY_INTELLIGENCE_V1.0</div>
+                    </div>
+                    
+                    {/* Dynamic Content Mock */}
+                    <div className="space-y-3">
+                       <div className="h-2 w-1/3 bg-slate-800 rounded mb-4"></div>
+                       <MockBar label="Sentiment Velocity" width="80%" color="bg-indigo-500" />
+                       <MockBar label="Feature Demand" width="65%" color="bg-purple-500" />
+                       <MockBar label="Churn Risk" width="40%" color="bg-pink-500" />
+                       
+                       <div className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-white/5">
+                          <div className="flex items-center gap-2 mb-2">
+                             <Zap size={14} className="text-yellow-400" />
+                             <span className="text-xs font-bold text-white">AI Recommendation</span>
+                          </div>
+                          <p className="text-xs text-slate-300 leading-relaxed">
+                             Prioritize "Dark Mode" update. Competitor Y released it yesterday. User demand has spiked 240% in last 12 hours.
+                          </p>
+                       </div>
+                    </div>
+                 </motion.div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Content Side (Right) */}
+            <div className="md:col-span-5 p-10 md:p-12 flex flex-col justify-center bg-slate-900">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="mb-2 inline-block px-3 py-1 bg-slate-800 rounded-full text-xs font-mono text-indigo-400 border border-indigo-500/20">
+                      {content[activeTab].tagline}
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-6">
+                      {content[activeTab].title}
+                    </h3>
+                    <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+                      {content[activeTab].desc}
+                    </p>
+                    
+                    <div className="grid grid-cols-2 gap-6 border-t border-white/5 pt-8">
+                       {content[activeTab].stats.map((stat, i) => (
+                         <div key={i}>
+                            <div className="text-3xl font-bold text-white mb-1">{stat.val}</div>
+                            <div className="text-sm text-slate-500 font-medium">{stat.label}</div>
+                         </div>
+                       ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+            </div>
+
+         </div>
+      </div>
+
+    </div>
+  );
+};
 
 export default function ScrollSnapPage() {
   const [activeSection, setActiveSection] = useState(0);
@@ -331,34 +511,8 @@ export default function ScrollSnapPage() {
         </section>
 
         {/* Content Section 2 */}
-        <section className="snap-section">
-          
-          <div className="relative z-10 max-w-6xl mx-auto px-4 mt-32">
-            <div className="text-center mb-4 max-w-6xl mx-auto">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
-                Why Choose <span className="text-[#C39B65]">Alkmy Intelligence?</span>
-              </h2>
-            </div>
-            {/* <CardSwap
-              cardDistance={60}
-              verticalDistance={70}
-              delay={5000}
-              pauseOnHover={false}
-            >
-              <Card>
-                <h3>Card 1</h3>
-                <p>Your content here</p>
-              </Card>
-              <Card>
-                <h3>Card 2</h3>
-                <p>Your content here</p>
-              </Card>
-              <Card>
-                <h3>Card 3</h3>
-                <p>Your content here</p>
-              </Card>
-            </CardSwap> */}
-          </div>
+        <section className="snap-section bg-slate-950 py-24 px-6 relative border-t border-white/5">
+          <SolutionsSection />
         </section>
 
         {/* Final Section */}
