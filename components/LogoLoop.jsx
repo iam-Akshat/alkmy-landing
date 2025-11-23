@@ -163,29 +163,58 @@ export const LogoLoop = memo(
       return magnitude * directionMultiplier * speedMultiplier;
     }, [speed, direction, isVertical]);
 
+    // Refs to hold current state values for comparison in updateDimensions without triggering re-renders
+    const seqWidthRef = useRef(seqWidth);
+    const seqHeightRef = useRef(seqHeight);
+    const copyCountRef = useRef(copyCount);
+
+    // Update refs on every render using useLayoutEffect to ensure they are up-to-date before effects run
+    // Using useLayoutEffect ensures we capture the value synchronously after render but before paint/effects
+    useEffect(() => {
+      seqWidthRef.current = seqWidth;
+      seqHeightRef.current = seqHeight;
+      copyCountRef.current = copyCount;
+    }, [seqWidth, seqHeight, copyCount]);
+
     const updateDimensions = useCallback(() => {
-      const containerWidth = containerRef.current?.clientWidth ?? 0;
-      const sequenceRect = seqRef.current?.getBoundingClientRect?.();
-      const sequenceWidth = sequenceRect?.width ?? 0;
-      const sequenceHeight = sequenceRect?.height ?? 0;
-      if (isVertical) {
-        const parentHeight = containerRef.current?.parentElement?.clientHeight ?? 0;
-        if (containerRef.current && parentHeight > 0) {
-          const targetHeight = Math.ceil(parentHeight);
-          if (containerRef.current.style.height !== `${targetHeight}px`)
-            containerRef.current.style.height = `${targetHeight}px`;
+      // Wrap in requestAnimationFrame to avoid synchronous layout thrashing and potential loops
+      requestAnimationFrame(() => {
+        const containerWidth = containerRef.current?.clientWidth ?? 0;
+        const sequenceRect = seqRef.current?.getBoundingClientRect?.();
+        const sequenceWidth = sequenceRect?.width ?? 0;
+        const sequenceHeight = sequenceRect?.height ?? 0;
+
+        if (isVertical) {
+          const parentHeight = containerRef.current?.parentElement?.clientHeight ?? 0;
+          if (containerRef.current && parentHeight > 0) {
+            const targetHeight = Math.ceil(parentHeight);
+            if (containerRef.current.style.height !== `${targetHeight}px`)
+              containerRef.current.style.height = `${targetHeight}px`;
+          }
+          if (sequenceHeight > 0) {
+            const newSeqHeight = Math.ceil(sequenceHeight);
+            if (newSeqHeight !== seqHeightRef.current) {
+              setSeqHeight(newSeqHeight);
+            }
+            const viewport = containerRef.current?.clientHeight ?? parentHeight ?? sequenceHeight;
+            const copiesNeeded = Math.ceil(viewport / sequenceHeight) + ANIMATION_CONFIG.COPY_HEADROOM;
+            const newCopyCount = Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded);
+            if (newCopyCount !== copyCountRef.current) {
+               setCopyCount(newCopyCount);
+            }
+          }
+        } else if (sequenceWidth > 0) {
+          const newSeqWidth = Math.ceil(sequenceWidth);
+          if (newSeqWidth !== seqWidthRef.current) {
+            setSeqWidth(newSeqWidth);
+          }
+          const copiesNeeded = Math.ceil(containerWidth / sequenceWidth) + ANIMATION_CONFIG.COPY_HEADROOM;
+          const newCopyCount = Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded);
+          if (newCopyCount !== copyCountRef.current) {
+            setCopyCount(newCopyCount);
+          }
         }
-        if (sequenceHeight > 0) {
-          setSeqHeight(Math.ceil(sequenceHeight));
-          const viewport = containerRef.current?.clientHeight ?? parentHeight ?? sequenceHeight;
-          const copiesNeeded = Math.ceil(viewport / sequenceHeight) + ANIMATION_CONFIG.COPY_HEADROOM;
-          setCopyCount(Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded));
-        }
-      } else if (sequenceWidth > 0) {
-        setSeqWidth(Math.ceil(sequenceWidth));
-        const copiesNeeded = Math.ceil(containerWidth / sequenceWidth) + ANIMATION_CONFIG.COPY_HEADROOM;
-        setCopyCount(Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded));
-      }
+      });
     }, [isVertical]);
 
     useResizeObserver(updateDimensions, [containerRef, seqRef], [logos, gap, logoHeight, isVertical]);

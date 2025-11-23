@@ -14,6 +14,15 @@ import CardSwap, { Card } from "../components/CardSwap";
 import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
 import { Zap } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { 
+  SiZendesk, SiReddit, SiApple, SiGoogleplay, SiX, SiDiscord, SiIntercom, 
+  SiSalesforce, SiHubspot, SiGithub, SiTrustpilot, SiTypeform, SiYoutube, 
+  SiTiktok, SiInstagram, SiWhatsapp, SiGmail,
+  SiJira, SiSlack, SiLinear, SiAsana, SiTrello, 
+  SiNotion, SiClickup, SiGitlab, SiAirtable, SiGooglesheets, 
+  SiDatadog, SiSnowflake
+} from 'react-icons/si';
+import LogoLoop from "../components/LogoLoop";
 
 const MockBar = ({ label, width, color }: { label: string, width: string, color: string }) => (
   <div className="group/bar">
@@ -192,6 +201,57 @@ const SolutionsSection = () => {
     </div>
   );
 };
+
+const LogosSection = () => {
+
+const integrations = [
+  { node: <SiApple />, title: "App Store", color: "text-gray-300" },
+  { node: <SiGoogleplay />, title: "Google Play", color: "text-green-400" },
+  { node: <SiReddit />, title: "Reddit", color: "text-orange-500" },
+  { node: <SiX />, title: "X (Twitter)", color: "text-white" },
+  { node: <SiZendesk />, title: "Zendesk", color: "text-green-600" },
+  { node: <SiSalesforce />, title: "Salesforce", color: "text-blue-400" },
+  { node: <SiHubspot />, title: "HubSpot", color: "text-orange-600" },
+  { node: <SiDiscord />, title: "Discord", color: "text-indigo-400" },
+  { node: <SiTrustpilot />, title: "Trustpilot", color: "text-green-500" },
+  { node: <SiTypeform />, title: "Typeform", color: "text-gray-400" },
+  { node: <SiYoutube />, title: "YouTube", color: "text-red-500" },
+  { node: <SiTiktok />, title: "TikTok", color: "text-pink-500" },
+  { node: <SiInstagram />, title: "Instagram", color: "text-pink-400" },
+  { node: <SiGmail />, title: "Email", color: "text-red-400" },
+    { node: <SiJira />, title: "Jira", color: "text-blue-500" },
+  { node: <SiSlack />, title: "Slack", color: "text-purple-400" },
+    { node: <SiAsana />, title: "Asana", color: "text-red-400" },
+  { node: <SiTrello />, title: "Trello", color: "text-blue-400" },
+  { node: <SiNotion />, title: "Notion", color: "text-white" },
+  { node: <SiClickup />, title: "ClickUp", color: "text-purple-500" },
+  { node: <SiGithub />, title: "GitHub Issues", color: "text-white" },
+  { node: <SiGitlab />, title: "GitLab", color: "text-orange-500" },
+
+  { node: <SiAirtable />, title: "Airtable", color: "text-yellow-400" },
+  { node: <SiGooglesheets />, title: "Sheets", color: "text-green-500" },
+  { node: <SiDatadog />, title: "Datadog", color: "text-purple-600" },
+  { node: <SiSnowflake />, title: "Snowflake", color: "text-blue-300" },
+];
+
+  return (
+    <div style={{ height: '200px', position: 'relative', overflow: 'hidden'}}>
+      <LogoLoop
+        logos={integrations}
+        speed={120}
+        direction="left"
+        logoHeight={48}
+        gap={40}
+        hoverSpeed={10}
+        scaleOnHover={false}
+        fadeOut={true}
+        fadeOutColor="#ffd748bc"
+        ariaLabel="Integrations"
+      />
+    </div>
+  );
+}
+
 
 export default function ScrollSnapPage() {
   const [activeSection, setActiveSection] = useState(0);
@@ -408,7 +468,10 @@ export default function ScrollSnapPage() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full mix-blend-multiply opacity-10 blur-3xl" />
           </div>
-
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-16 animate-fade-in-up mt-32">
+            Works With <br />
+          </h2>
+          <LogosSection />
           <div className="relative z-10 max-w-6xl mx-auto px-4 mt-32">
             <div className="text-center mb-16 max-w-6xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-16 animate-fade-in-up">
