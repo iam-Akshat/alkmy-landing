@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import './MagicBento.css';
 
 import { BarChart2, ListTodo, BrainCircuit, Radar, Network, ShieldCheck } from 'lucide-react';
+import { InsightClustersVisual, MarketRadarVisual } from './BentoVisuals';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 100;
@@ -31,14 +32,16 @@ const cardData = [
     title: 'Knowledge on Auto-Pilot',
     description: 'AI-driven grouping of user feedback into actionable thematic patterns by sentiment and volume.',
     label: 'Insight Clusters',
-    icon: BrainCircuit
+    icon: BrainCircuit,
+    visual: <InsightClustersVisual />
   },
   {
     color: '#ffffff16',
     description: 'Be ahead, Understand your competitor’s weaknesses and offensively target them.',
     title: 'Discover Market Vulnerabilities and Opportunities',
     label: 'Market Radar',
-    icon: Radar
+    icon: Radar,
+    visual: <MarketRadarVisual />
   },
   {
     color: '#ffffff16',
@@ -532,6 +535,7 @@ const MagicBento = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
+                {card.visual}
                 <div className="magic-bento-card__header">
                   <div className="magic-bento-card__label">{card.label}</div>
                 </div>
@@ -656,6 +660,7 @@ const MagicBento = ({
                 el.addEventListener('click', handleClick);
               }}
             >
+              {card.visual}
               <div className="magic-bento-card__header">
                 <div className="magic-bento-card__label">{card.label}</div>
               </div>
