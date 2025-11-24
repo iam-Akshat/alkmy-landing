@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback, memo } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import './TiltedCard.css';
 
@@ -7,6 +7,12 @@ const springValues = {
   damping: 30,
   stiffness: 100,
   mass: 2
+};
+
+const captionSpringValues = {
+  stiffness: 350,
+  damping: 30,
+  mass: 1
 };
 
 /**
@@ -25,7 +31,7 @@ const springValues = {
  * @param {React.ReactNode} [props.overlayContent]
  * @param {boolean} [props.displayOverlayContent]
  */
-export default function TiltedCard({
+const TiltedCard = memo(function TiltedCard({
   imageSrc,
   altText = 'Tilted card image',
   captionText = '',
@@ -41,54 +47,67 @@ export default function TiltedCard({
   displayOverlayContent = false
 }) {
   const ref = useRef(null);
+  const rafRef = useRef(null);
+  const lastYRef = useRef(0);
 
-  const x = useMotionValue();
-  const y = useMotionValue();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
   const rotateX = useSpring(useMotionValue(0), springValues);
   const rotateY = useSpring(useMotionValue(0), springValues);
   const scale = useSpring(1, springValues);
   const opacity = useSpring(0);
-  const rotateFigcaption = useSpring(0, {
-    stiffness: 350,
-    damping: 30,
-    mass: 1
-  });
+  const rotateFigcaption = useSpring(0, captionSpringValues);
 
-  const [lastY, setLastY] = useState(0);
-
-  function handleMouse(e) {
+  const handleMouse = useCallback((e) => {
     if (!ref.current) return;
 
-    const rect = ref.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left - rect.width / 2;
-    const offsetY = e.clientY - rect.top - rect.height / 2;
+    // Cancel any pending RAF
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+    }
 
-    const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
-    const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+    // Throttle with RAF
+    rafRef.current = requestAnimationFrame(() => {
+      if (!ref.current) return;
 
-    rotateX.set(rotationX);
-    rotateY.set(rotationY);
+      const rect = ref.current.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left - rect.width / 2;
+      const offsetY = e.clientY - rect.top - rect.height / 2;
 
-    x.set(e.clientX - rect.left);
-    y.set(e.clientY - rect.top);
+      const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
+      const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude;
 
-    const velocityY = offsetY - lastY;
-    rotateFigcaption.set(-velocityY * 0.6);
-    setLastY(offsetY);
-  }
+      rotateX.set(rotationX);
+      rotateY.set(rotationY);
 
-  function handleMouseEnter() {
+      x.set(e.clientX - rect.left);
+      y.set(e.clientY - rect.top);
+
+      const velocityY = offsetY - lastYRef.current;
+      rotateFigcaption.set(-velocityY * 0.6);
+      lastYRef.current = offsetY;
+    });
+  }, [rotateAmplitude, rotateX, rotateY, rotateFigcaption, x, y]);
+
+  const handleMouseEnter = useCallback(() => {
     scale.set(scaleOnHover);
     opacity.set(1);
-  }
+  }, [scale, scaleOnHover, opacity]);
 
-  function handleMouseLeave() {
+  const handleMouseLeave = useCallback(() => {
+    // Cancel any pending RAF
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
     opacity.set(0);
     scale.set(1);
     rotateX.set(0);
     rotateY.set(0);
     rotateFigcaption.set(0);
-  }
+    lastYRef.current = 0;
+  }, [opacity, scale, rotateX, rotateY, rotateFigcaption]);
 
   return (
     <figure
@@ -96,7 +115,8 @@ export default function TiltedCard({
       className="tilted-card-figure"
       style={{
         height: containerHeight,
-        width: containerWidth
+        width: containerWidth,
+        willChange: 'transform'
       }}
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
@@ -113,7 +133,8 @@ export default function TiltedCard({
           height: imageHeight,
           rotateX,
           rotateY,
-          scale
+          scale,
+          willChange: 'transform'
         }}
       >
         <motion.img
@@ -138,7 +159,8 @@ export default function TiltedCard({
             x,
             y,
             opacity,
-            rotate: rotateFigcaption
+            rotate: rotateFigcaption,
+            willChange: 'transform, opacity'
           }}
         >
           {captionText}
@@ -146,4 +168,6 @@ export default function TiltedCard({
       )}
     </figure>
   );
-}
+});
+
+export default TiltedCard;

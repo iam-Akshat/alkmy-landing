@@ -1,11 +1,11 @@
 "use client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useCallback, useMemo, memo } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import "./CardNav.css";
 
-const CardNav = ({
+const CardNav = memo(({
   logoAlt = "Logo",
   items,
   className = "",
@@ -21,7 +21,7 @@ const CardNav = ({
   const cardsRef = useRef([]);
   const tlRef = useRef(null);
 
-  const calculateHeight = () => {
+  const calculateHeight = useCallback(() => {
     const navEl = navRef.current;
     if (!navEl) return 260;
 
@@ -54,9 +54,9 @@ const CardNav = ({
       }
     }
     return 260;
-  };
+  }, []);
 
-  const createTimeline = () => {
+  const createTimeline = useCallback(() => {
     const navEl = navRef.current;
     if (!navEl) return null;
 
@@ -78,7 +78,7 @@ const CardNav = ({
     );
 
     return tl;
-  };
+  }, [calculateHeight, ease]);
 
   useLayoutEffect(() => {
     const tl = createTimeline();
@@ -88,8 +88,7 @@ const CardNav = ({
       tl?.kill();
       tlRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ease, items]);
+  }, [createTimeline]);
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -114,12 +113,11 @@ const CardNav = ({
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isExpanded]);
+  }, [isExpanded, calculateHeight, createTimeline]);
 
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     const tl = tlRef.current;
     if (!tl) return;
     if (!isExpanded) {
@@ -131,18 +129,32 @@ const CardNav = ({
       tl.eventCallback("onReverseComplete", () => setIsExpanded(false));
       tl.reverse();
     }
-  };
+  }, [isExpanded]);
 
-  const setCardRef = (i) => (el) => {
+  const setCardRef = useCallback((i) => (el) => {
     if (el) cardsRef.current[i] = el;
-  };
+  }, []);
+
+  // Memoize nav style
+  const navStyle = useMemo(() => ({ backgroundColor: baseColor }), [baseColor]);
+  const ctaButtonStyle = useMemo(
+    () => ({ backgroundColor: buttonBgColor, color: buttonTextColor }),
+    [buttonBgColor, buttonTextColor]
+  );
+  const hamburgerStyle = useMemo(
+    () => ({ color: menuColor || "#000" }),
+    [menuColor]
+  );
+
+  // Memoize sliced items
+  const displayItems = useMemo(() => (items || []).slice(0, 3), [items]);
 
   return (
     <div className={`card-nav-container ${className}`}>
       <nav
         ref={navRef}
         className={`card-nav backdrop-blur-md ${isExpanded ? "open" : ""}`}
-        style={{ backgroundColor: baseColor }}
+        style={navStyle}
       >
         <div className="card-nav-top">
           <div
@@ -151,7 +163,7 @@ const CardNav = ({
             role="button"
             aria-label={isExpanded ? "Close menu" : "Open menu"}
             tabIndex={0}
-            style={{ color: menuColor || "#000" }}
+            style={hamburgerStyle}
           >
             <div className="hamburger-line" />
             <div className="hamburger-line" />
@@ -161,23 +173,23 @@ const CardNav = ({
             <Image
               src="./alkmy.svg"
               alt={logoAlt}
-              width={120} // Set your desired width
-              height={50} // Set your desired height
-              priority // Add priority if it's above-the-fold (like in a header)
+              width={120}
+              height={50}
+              priority
             />
           </div>
 
           <button
             type="button"
             className="card-nav-cta-button"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            style={ctaButtonStyle}
           >
             Get Started
           </button>
         </div>
 
         <div className="card-nav-content" aria-hidden={!isExpanded}>
-          {(items || []).slice(0, 3).map((item, idx) => (
+          {displayItems.map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
               className="nav-card"
@@ -207,6 +219,7 @@ const CardNav = ({
       </nav>
     </div>
   );
-};
+});
+CardNav.displayName = 'CardNav';
 
 export default CardNav;

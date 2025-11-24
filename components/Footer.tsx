@@ -1,5 +1,7 @@
+import { memo } from "react";
 import Image from "next/image";
-export const Footer = () => {
+
+export const Footer = memo(() => {
   return (
     <div className="relative mt-16 bg-white">
       <svg
@@ -250,4 +252,5 @@ export const Footer = () => {
       </div>
     </div>
   );
-};
+});
+Footer.displayName = 'Footer';

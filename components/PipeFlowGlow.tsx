@@ -34,8 +34,8 @@ const VIEW_WIDTH = 600;
 const VIEW_HEIGHT = 800;
 const CENTER_X = 300;
 const CENTER_Y = 400;
-const CENTER_BOX_SIZE = 52;
-const CENTER_BOX_HALF = 26;
+const CENTER_BOX_SIZE = 96;
+const CENTER_BOX_HALF = 48;
 
 // Define the static paths (Vertical Flow)
 const staticPaths = [
@@ -457,10 +457,10 @@ export default function AppHero() {
 
           {/* The Central Box */}
           <div
-            className="absolute z-10 border rounded-xl border-white/20 bg-gray-800/50 backdrop-blur-md shadow-2xl flex items-center justify-center"
+            className="absolute z-10 border rounded-xl border-white/20 bg-gray-800/50 backdrop-blur-xl shadow-2xl flex items-center justify-center"
             style={centralBoxStyle}
           >
-            <Lightbulb className="w-7 h-7 text-yellow-300" />
+            <Lightbulb className="w-10 h-10 text-yellow-300" />
           </div>
         </div>
       </div>
