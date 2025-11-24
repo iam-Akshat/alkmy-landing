@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, JSX, useRef, useMemo } from "react";
+import React, { useState, JSX, useRef, useMemo } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   Brain,

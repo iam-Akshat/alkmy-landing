@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Database, BrainCircuit, LayoutGrid } from 'lucide-react';
+import { useGSAP } from '@gsap/react';
 
 const steps = [
   {
@@ -81,7 +82,7 @@ const Card = ({ step, index, isActive }) => {
 export default function ProcessFlow() {
   const [activeStep, setActiveStep] = useState(0);
 
-  useEffect(() => {
+  useGSAP(() => {
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % (steps.length + 1));
     }, 3000);

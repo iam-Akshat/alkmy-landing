@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
 import { useGSAP } from '@gsap/react';
 import './LightRays.css';
@@ -80,7 +80,7 @@ const LightRays = ({
     };
   }, []);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!isVisible || !containerRef.current) return;
 
     if (cleanupFunctionRef.current) {
@@ -344,7 +344,7 @@ void main() {
     distortion
   ]);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!uniformsRef.current || !containerRef.current || !rendererRef.current) return;
 
     const u = uniformsRef.current;
@@ -380,7 +380,7 @@ void main() {
     distortion
   ]);
 
-  useEffect(() => {
+  useGSAP(() => {
     const handleMouseMove = e => {
       if (!containerRef.current || !rendererRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();

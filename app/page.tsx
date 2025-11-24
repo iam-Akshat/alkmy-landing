@@ -444,10 +444,6 @@ export default function ScrollSnapPage() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full mix-blend-multiply opacity-10 blur-3xl" />
           </div>
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-16 animate-fade-in-up mt-32">
-            Works With <br />
-          </h2>
-          {/* <LogosSection /> */}
           <div className="relative z-10 max-w-6xl mx-auto px-4 mt-32">
             <div className="text-center mb-16 max-w-6xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-16 animate-fade-in-up">
