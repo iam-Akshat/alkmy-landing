@@ -86,7 +86,7 @@ const SolutionsSection = () => {
          </div>
          
          {/* Tab Switcher */}
-         <div className="flex bg-slate-900 p-1 rounded-xl border border-white/10 overflow-x-auto max-w-full">
+         <div className="flex flex-wrap bg-slate-900 p-1 rounded-xl border border-white/10 max-w-full justify-center md:justify-start">
             {(Object.keys(content) as Array<keyof typeof content>).map((key) => (
               <button 
                 key={key}
@@ -297,10 +297,10 @@ export default function ScrollSnapPage() {
         <CardNav
           logoAlt="Alkmy AI"
           items={items}
-          baseColor="#ffffff20"
-          menuColor="white"
-          buttonBgColor="white"
-          buttonTextColor="black"
+          baseColor="#ffffff"
+          menuColor="black"
+          buttonBgColor="black"
+          buttonTextColor="white"
           ease="power3.out"
         />
         {/* Hero Section */}

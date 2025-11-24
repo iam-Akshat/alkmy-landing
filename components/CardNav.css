@@ -22,6 +22,9 @@
   background: rgba(255, 255, 255, 0.1); /* Increased opacity slightly */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  /* Chrome-specific fixes for backdrop-filter */
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 .card-nav-top {
