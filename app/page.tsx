@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, memo } from "react";
 import dynamic from "next/dynamic";
-import { ArrowRight, Ghost, AlertTriangle, MessageSquare, LayoutGrid, Eye, EyeOff, BanknoteArrowUp, Zap } from "lucide-react";
+import { ArrowRight,BarChart3, Ghost, TrendingDown,Siren, AlertTriangle, MessageSquare, LayoutGrid, Eye, EyeOff, BanknoteArrowUp, Zap } from "lucide-react";
 import CardNav from "../components/CardNav";
 import { Footer } from "../components/Footer";
 import { motion, AnimatePresence } from "motion/react";
@@ -41,8 +41,190 @@ const MockBar = memo(({ label, width, color }: { label: string, width: string, c
 ));
 MockBar.displayName = "MockBar";
 
+const PMVisual = memo(() => {
+  return (
+    <div className="w-full max-w-sm mx-auto relative">
+      <div className="absolute inset-0 bg-indigo-500/20 blur-3xl rounded-full"></div>
+      <div className="relative bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+          <span className="text-[10px] font-mono text-slate-400 uppercase">Feature Prioritization</span>
+          <BarChart3 size={14} className="text-indigo-400"/>
+        </div>
+        <div className="space-y-3">
+          {/* Item 1 */}
+          <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex items-center gap-3 p-2 bg-indigo-500/10 border border-indigo-500/30 rounded-lg"
+          >
+            <div className="w-6 h-6 rounded bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white">1</div>
+            <div className="flex-1">
+              <div className="h-2 w-24 bg-slate-700 rounded mb-1"></div>
+              <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: "92%" }}
+                  transition={{ delay: 0.5, duration: 1 }}
+                  className="h-full bg-gradient-to-r from-indigo-400 to-cyan-400"
+                ></motion.div>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-indigo-300">92</span>
+          </motion.div>
+
+          {/* Item 2 */}
+          <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center gap-3 p-2 bg-slate-800/50 border border-white/5 rounded-lg opacity-60"
+          >
+            <div className="w-6 h-6 rounded bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-400">2</div>
+            <div className="flex-1">
+              <div className="h-2 w-20 bg-slate-700 rounded mb-1"></div>
+              <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: "45%" }}
+                  transition={{ delay: 0.7, duration: 1 }}
+                  className="h-full bg-slate-500"
+                ></motion.div>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-slate-500">45</span>
+          </motion.div>
+
+           {/* Item 3 */}
+           <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="flex items-center gap-3 p-2 bg-slate-800/50 border border-white/5 rounded-lg opacity-40"
+          >
+            <div className="w-6 h-6 rounded bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-400">3</div>
+            <div className="flex-1">
+              <div className="h-2 w-16 bg-slate-700 rounded mb-1"></div>
+              <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: "20%" }}
+                  transition={{ delay: 0.9, duration: 1 }}
+                  className="h-full bg-slate-600"
+                ></motion.div>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-slate-600">20</span>
+          </motion.div>
+        </div>
+        
+        {/* Floating Tooltip */}
+        <motion.div 
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1.2, type: "spring" }}
+          className="absolute -right-2 top-10 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg"
+        >
+          High ROI
+        </motion.div>
+      </div>
+    </div>
+  )
+})
+
+const CEOVisual = memo(() => {
+  return (
+    <div className="w-full max-w-sm mx-auto relative h-[220px] flex items-center justify-center">
+       {/* Background Grid */}
+       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]"></div>
+       
+       {/* Central Gauge */}
+       <div className="relative w-40 h-40">
+          <svg className="w-full h-full transform -rotate-90">
+             <circle cx="80" cy="80" r="70" fill="none" stroke="#1e293b" strokeWidth="8" />
+             <motion.circle 
+               cx="80" cy="80" r="70" fill="none" stroke="#ef4444" strokeWidth="8" 
+               strokeDasharray="440"
+               strokeDashoffset="440"
+               animate={{ strokeDashoffset: 300 }} // 300 is rough calc for 30% drop
+               transition={{ duration: 1.5, ease: "easeOut" }}
+             />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+             <motion.div 
+               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+               className="text-4xl font-bold text-white"
+             >
+               68
+             </motion.div>
+             <div className="text-[10px] font-mono text-red-400 uppercase tracking-widest flex items-center gap-1">
+                <TrendingDown size={10} /> Dropping
+             </div>
+          </div>
+       </div>
+
+       {/* Alert Card */}
+       <motion.div 
+         initial={{ y: -50, opacity: 0 }}
+         animate={{ y: 0, opacity: 1 }}
+         transition={{ delay: 1.5, type: "spring" }}
+         className="absolute bottom-4 bg-red-500/10 border border-red-500/50 backdrop-blur-md px-4 py-2 rounded-lg flex items-center gap-3 shadow-xl"
+       >
+          <div className="bg-red-500 rounded-full p-1 animate-pulse"><Siren size={14} className="text-white"/></div>
+          <div>
+            <div className="text-xs font-bold text-red-200">Crisis Alert</div>
+            <div className="text-[10px] text-red-300">Login Failure Spike (+400%)</div>
+          </div>
+       </motion.div>
+    </div>
+  )
+})
+
+const CompVisual = memo(() => {
+  return (
+    <div className="w-full max-w-sm mx-auto relative h-[250px] flex items-center justify-center">
+       {/* Radar Circles */}
+       {[1, 2, 3].map((i) => (
+         <div key={i} className="absolute border border-pink-500/20 rounded-full" style={{ width: i * 80, height: i * 80 }}></div>
+       ))}
+       <div className="absolute w-1 h-1 bg-pink-500 rounded-full z-10"></div>
+
+       {/* Rotating Scanner */}
+       <motion.div 
+         animate={{ rotate: 360 }}
+         transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+         className="absolute w-[120px] h-[120px] bg-gradient-to-t from-transparent to-pink-500/30 origin-bottom-left rounded-tr-full top-1/2 left-1/2 -translate-y-full"
+         style={{ borderRight: '1px solid rgba(236, 72, 153, 0.5)' }}
+       ></motion.div>
+
+       {/* Blip 1 (Weakness) */}
+       <motion.div 
+         initial={{ opacity: 0, scale: 0 }}
+         animate={{ opacity: [0, 1, 0] }}
+         transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
+         className="absolute top-10 right-16"
+       >
+         <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_#ef4444]"></div>
+       </motion.div>
+
+       {/* Tooltip for Blip */}
+       <motion.div 
+         initial={{ opacity: 0, x: 10 }}
+         animate={{ opacity: 1, x: 0 }}
+         transition={{ delay: 1, duration: 0.5 }}
+         className="absolute top-8 right-0 translate-x-1/2 bg-slate-900 border border-pink-500/50 text-[10px] text-pink-200 px-2 py-1 rounded"
+       >
+         Competitor Weakness Detected
+       </motion.div>
+    </div>
+  )
+})
+
+
+// --- MAIN COMPONENTS ---
+
 const SolutionsSection = memo(() => {
-  const [activeTab, setActiveTab] = useState<'pm' | 'ceo' | 'comp'>('pm');
+  const [activeTab, setActiveTab] = useState('pm');
 
   const content = {
     pm: {
@@ -54,7 +236,8 @@ const SolutionsSection = memo(() => {
         { label: "Planning Time", val: "Reduce" },
         { label: "Feature Adoption", val: "Improve" }
       ],
-      gradient: "from-blue-500 to-indigo-600"
+      gradient: "from-blue-500 to-indigo-600",
+      visual: <PMVisual />
     },
     ceo: {
       title: "The Bullshit Detector",
@@ -65,7 +248,8 @@ const SolutionsSection = memo(() => {
         { label: "Bird's Eye View", val: "Real-time" },
         { label: "Crisis Alerts", val: "Smart" }
       ],
-      gradient: "from-violet-500 to-fuchsia-600"
+      gradient: "from-violet-500 to-blue-300",
+      visual: <CEOVisual />
     },
     comp: {
       title: "The War Room",
@@ -76,129 +260,101 @@ const SolutionsSection = memo(() => {
         { label: "Competitor Insights", val: "Intelligence" },
         { label: "Opportunity Score", val: "Validated" }
       ],
-      gradient: "from-rose-500 to-orange-600"
+      gradient: "from-slate-500 to-blue-600",
+      visual: <CompVisual />
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto w-full">
-      
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 mx-4">
-         <div>
-           <div className="text-indigo-500 font-mono text-sm font-bold uppercase tracking-widest mb-2">Intelligence Suite</div>
-           <h2 className="text-4xl md:text-5xl font-bold text-white">Three lenses.<br/>One source of truth.</h2>
-         </div>
-         
-         {/* Tab Switcher */}
-         <div className="flex flex-wrap bg-slate-900 p-1 rounded-xl border border-white/10 max-w-full justify-center md:justify-start">
-            {(Object.keys(content) as Array<keyof typeof content>).map((key) => (
-              <button 
-                key={key}
-                onClick={() => setActiveTab(key)}
-                className={`px-6 py-3 rounded-lg text-sm my-1 mx-1 font-bold transition-all whitespace-nowrap ${
-                  activeTab === key 
-                  ? 'bg-white text-slate-950 shadow-lg' 
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                {content[key].subtitle}
-              </button>
-            ))}
-         </div>
+    <section id="solutions" className="py-24 px-6 relative border-t border-white/5">
+      <div className="max-w-7xl mx-auto w-full">
+        
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 mx-4">
+           <div>
+             <div className="text-indigo-500 font-mono text-sm font-bold uppercase tracking-widest mb-2">Intelligence Suite</div>
+             <h2 className="text-4xl md:text-5xl font-bold text-white">Three lenses.<br/>One source of truth.</h2>
+           </div>
+           
+           {/* Tab Switcher */}
+           <div className="flex flex-wrap bg-slate-900 p-1 rounded-xl border border-white/10 max-w-full justify-center md:justify-start">
+              {Object.keys(content).map((key) => (
+                <button 
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`px-6 py-3 rounded-lg text-sm my-1 mx-1 font-bold transition-all whitespace-nowrap ${
+                    activeTab === key 
+                    ? 'bg-white text-slate-950 shadow-lg' 
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  }`}
+                >
+                  {content[key].subtitle}
+                </button>
+              ))}
+           </div>
+        </div>
+
+        {/* Feature Display */}
+        <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl mx-4 bg-slate-900">
+           <div className="grid md:grid-cols-12 min-h-[500px]">
+              
+              {/* Visual Side (Left) */}
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={activeTab}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className={`md:col-span-7 relative bg-gradient-to-br ${content[activeTab].gradient} p-10 flex items-center justify-center overflow-hidden group`}
+                >
+                   {/* Decorative Circles */}
+                   <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20 transition-transform duration-700 group-hover:scale-110"></div>
+                   <div className="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full blur-2xl -ml-20 -mb-20"></div>
+                   
+                   {/* Dynamic Visualization */}
+                   <div className="relative z-10 w-full">
+                      {content[activeTab].visual}
+                   </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Content Side (Right) */}
+              <div className="md:col-span-5 p-10 md:p-12 flex flex-col justify-center bg-slate-900">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="mb-2 inline-block px-3 py-1 bg-slate-800 rounded-full text-xs font-mono text-indigo-400 border border-indigo-500/20">
+                        {content[activeTab].tagline}
+                      </div>
+                      <h3 className="text-3xl font-bold text-white mb-6">
+                        {content[activeTab].title}
+                      </h3>
+                      <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+                        {content[activeTab].desc}
+                      </p>
+                      
+                      <div className="grid grid-cols-2 gap-6 border-t border-white/5 pt-8">
+                         {content[activeTab].stats.map((stat, i) => (
+                           <div key={i}>
+                              <div className="text-3xl font-bold text-white mb-1">{stat.val}</div>
+                              <div className="text-sm text-slate-500 font-medium">{stat.label}</div>
+                           </div>
+                         ))}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+              </div>
+
+           </div>
+        </div>
+
       </div>
-
-      {/* Feature Display */}
-      <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl  mx-4">
-         <div className="grid md:grid-cols-12 min-h-[500px]">
-            
-            {/* Visual Side (Left) */}
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={activeTab}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className={`md:col-span-7 relative bg-gradient-to-br ${content[activeTab].gradient} p-10 flex items-center justify-center overflow-hidden group`}
-              >
-                 {/* Decorative Circles */}
-                 <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20 transition-transform duration-700 group-hover:scale-110"></div>
-                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full blur-2xl -ml-20 -mb-20"></div>
-                 
-                 {/* Mock Interface */}
-                 <motion.div 
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="relative w-full max-w-md bg-slate-950/90 backdrop-blur-xl rounded-xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 transform transition-transform duration-500 group-hover:-translate-y-2"
-                 >
-                    {/* Mock Header */}
-                    <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
-                       <div className="flex gap-2">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                       </div>
-                       <div className="text-[10px] font-mono text-slate-500">ALKMY_INTELLIGENCE_V1.0</div>
-                    </div>
-                    
-                    {/* Dynamic Content Mock */}
-                    <div className="space-y-3">
-                       <div className="h-2 w-1/3 bg-slate-800 rounded mb-4"></div>
-                       <MockBar label="Sentiment Velocity" width="80%" color="bg-indigo-500" />
-                       <MockBar label="Feature Demand" width="65%" color="bg-purple-500" />
-                       <MockBar label="Churn Risk" width="40%" color="bg-pink-500" />
-                       
-                       <div className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-white/5">
-                          <div className="flex items-center gap-2 mb-2">
-                             <Zap size={14} className="text-yellow-400" />
-                             <span className="text-xs font-bold text-white">AI Recommendation</span>
-                          </div>
-                          <p className="text-xs text-slate-300 leading-relaxed">
-                             Prioritize "Dark Mode" update. Competitor Y released it yesterday. User demand has spiked 240% in last 12 hours.
-                          </p>
-                       </div>
-                    </div>
-                 </motion.div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Content Side (Right) */}
-            <div className="md:col-span-5 p-10 md:p-12 flex flex-col justify-center bg-slate-900">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-2 inline-block px-3 py-1 bg-slate-800 rounded-full text-xs font-mono text-indigo-400 border border-indigo-500/20">
-                      {content[activeTab].tagline}
-                    </div>
-                    <h3 className="text-3xl font-bold text-white mb-6">
-                      {content[activeTab].title}
-                    </h3>
-                    <p className="text-lg text-slate-400 mb-10 leading-relaxed">
-                      {content[activeTab].desc}
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-6 border-t border-white/5 pt-8">
-                       {content[activeTab].stats.map((stat, i) => (
-                         <div key={i}>
-                            <div className="text-3xl font-bold text-white mb-1">{stat.val}</div>
-                            <div className="text-sm text-slate-500 font-medium">{stat.label}</div>
-                         </div>
-                       ))}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-            </div>
-
-         </div>
-      </div>
-
-    </div>
+    </section>
   );
 });
 SolutionsSection.displayName = "SolutionsSection";
