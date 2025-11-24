@@ -130,7 +130,8 @@ const PMVisual = memo(() => {
       </div>
     </div>
   )
-})
+});
+PMVisual.displayName = 'PMVisual';
 
 const CEOVisual = memo(() => {
   return (
@@ -178,7 +179,8 @@ const CEOVisual = memo(() => {
        </motion.div>
     </div>
   )
-})
+});
+CEOVisual.displayName = 'CEOVisual';
 
 const CompVisual = memo(() => {
   return (
@@ -219,6 +221,7 @@ const CompVisual = memo(() => {
     </div>
   )
 })
+CompVisual.displayName = 'CompVisual';
 
 
 // --- MAIN COMPONENTS ---

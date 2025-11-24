@@ -1,28 +1,32 @@
 "use client";
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-export const InsightClustersVisual = () => {
+export const InsightClustersVisual = memo(() => {
   const containerRef = useRef(null);
+  const animationsRef = useRef([]);
 
   useGSAP(() => {
+    if (!containerRef.current) return;
+
     const nodes = containerRef.current.querySelectorAll('.cluster-node');
     const lines = containerRef.current.querySelectorAll('.cluster-line');
     const group = containerRef.current.querySelector('.cluster-group');
 
     // Float animation for the whole group
-    gsap.to(group, {
+    const groupAnim = gsap.to(group, {
       rotation: 360,
       duration: 120,
       repeat: -1,
       ease: 'none',
       transformOrigin: 'center center'
     });
+    animationsRef.current.push(groupAnim);
 
     // Individual node float
     nodes.forEach((node) => {
-      gsap.to(node, {
+      const moveAnim = gsap.to(node, {
         x: 'random(-10, 10)',
         y: 'random(-10, 10)',
         duration: 'random(2, 4)',
@@ -30,20 +34,22 @@ export const InsightClustersVisual = () => {
         yoyo: true,
         ease: 'sine.inOut',
       });
+      animationsRef.current.push(moveAnim);
       
       // Pulse opacity
-      gsap.to(node, {
+      const pulseAnim = gsap.to(node, {
         opacity: 'random(0.4, 1)',
         duration: 'random(1.5, 3)',
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
       });
+      animationsRef.current.push(pulseAnim);
     });
 
     // Line animations
     lines.forEach((line) => {
-      gsap.fromTo(line, 
+      const lineAnim = gsap.fromTo(line, 
         { strokeDasharray: 10, strokeDashoffset: 10 },
         { 
           strokeDashoffset: 0,
@@ -52,14 +58,19 @@ export const InsightClustersVisual = () => {
           ease: 'none'
         }
       );
+      animationsRef.current.push(lineAnim);
     });
 
+    return () => {
+      animationsRef.current.forEach(anim => anim?.kill());
+      animationsRef.current = [];
+    };
   }, { scope: containerRef });
 
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
       <div className="absolute top-0 right-0 w-full h-full opacity-30">
-        <svg className="w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+        <svg className="w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ willChange: 'transform' }}>
           <defs>
             <radialGradient id="clusterGlow" cx="0.5" cy="0.5" r="0.5">
               <stop offset="0%" stopColor="rgba(195, 155, 101, 0.4)" />
@@ -94,35 +105,41 @@ export const InsightClustersVisual = () => {
       </div>
     </div>
   );
-};
+});
+InsightClustersVisual.displayName = 'InsightClustersVisual';
 
-export const MarketRadarVisual = () => {
+export const MarketRadarVisual = memo(() => {
   const containerRef = useRef(null);
+  const animationsRef = useRef([]);
 
   useGSAP(() => {
+    if (!containerRef.current) return;
+
     const scanLine = containerRef.current.querySelector('.radar-scan');
     const blips = containerRef.current.querySelectorAll('.radar-blip');
     const rings = containerRef.current.querySelectorAll('.radar-ring');
 
     // Scan line rotation
-    gsap.to(scanLine, {
+    const scanAnim = gsap.to(scanLine, {
       rotation: 360,
       svgOrigin: '100 100',
       duration: 4,
       repeat: -1,
       ease: 'none',
     });
+    animationsRef.current.push(scanAnim);
 
     // Blip animations
     blips.forEach((blip, i) => {
       const tl = gsap.timeline({ repeat: -1, delay: i * 1.2 });
       tl.to(blip, { opacity: 1, scale: 1.5, duration: 0.2, ease: 'power1.out' })
         .to(blip, { opacity: 0, scale: 0.5, duration: 1, ease: 'power1.in' });
+      animationsRef.current.push(tl);
     });
 
     // Ring pulse
     rings.forEach((ring, i) => {
-      gsap.to(ring, {
+      const ringAnim = gsap.to(ring, {
         opacity: 0.3,
         duration: 2,
         repeat: -1,
@@ -130,14 +147,19 @@ export const MarketRadarVisual = () => {
         delay: i * 0.5,
         ease: 'sine.inOut'
       });
+      animationsRef.current.push(ringAnim);
     });
 
+    return () => {
+      animationsRef.current.forEach(anim => anim?.kill());
+      animationsRef.current = [];
+    };
   }, { scope: containerRef });
 
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center overflow-hidden">
       <div className="absolute w-[140%] h-[140%] opacity-20">
-        <svg className="w-full h-full" viewBox="0 0 200 200">
+        <svg className="w-full h-full" viewBox="0 0 200 200" style={{ willChange: 'transform' }}>
           <defs>
             <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="rgba(195, 155, 101, 0)" />
@@ -180,4 +202,5 @@ export const MarketRadarVisual = () => {
       </div>
     </div>
   );
-};
+});
+MarketRadarVisual.displayName = 'MarketRadarVisual';
