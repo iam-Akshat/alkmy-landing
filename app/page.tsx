@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, memo } from "react";
+import { useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRight,BarChart3, Ghost, TrendingDown,Siren, AlertTriangle, MessageSquare, LayoutGrid, Eye, EyeOff, BanknoteArrowUp, Zap } from "lucide-react";
 import CardNav from "../components/CardNav";
