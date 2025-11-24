@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, BrainCircuit, Target } from 'lucide-react';
+import { Database, BrainCircuit, LayoutGrid } from 'lucide-react';
 
 const steps = [
   {
     id: 1,
-    title: "Insights & Pain Points",
-    description: "Immediate prioritization of critical data.",
-    icon: <BarChart3 className="w-6 h-6 text-amber-200" />,
+    title: "Universal Ingestion",
+    description: "We hook into your public channels (App Store, Reddit, Twitter) and private data (Zendesk, Jira, Slack) to create a single data lake.",
+    icon: <Database className="w-6 h-6 text-blue-400" />,
   },
   {
     id: 2,
-    title: "Knowledge on Auto-Pilot",
-    description: "AI-driven grouping of user feedback.",
-    icon: <BrainCircuit className="w-6 h-6 text-amber-200" />,
+    title: "Semantic Synthesis",
+    description: "Our LLM engine doesn't just keyword match. It understands intent. It groups \"I can't pay\" and \"Checkout broken\" into the same high-priority cluster.",
+    icon: <BrainCircuit className="w-6 h-6 text-purple-400" />,
   },
   {
     id: 3,
-    title: "Market & Security",
-    description: "Vulnerabilities, Opportunities & Protection.",
-    icon: <Target className="w-6 h-6 text-amber-200" />,
+    title: "Actionable Triggers",
+    description: "Insights are pushed directly to your workflow. Create a Jira ticket, alert the CEO via Slack, or export a roadmap report in one click.",
+    icon: <LayoutGrid className="w-6 h-6 text-pink-400" />,
   },
 ];
 
 const Card = ({ step, index, isActive }) => {
   // Determine alignment based on index for the stepped layout
   const alignmentClass = 
-    index === 0 ? "self-start ml-4 md:ml-12" : 
+    index === 0 ? "self-start ml-4 lg:ml-48" : 
     index === 1 ? "self-center" : 
-    "self-end mr-4 md:mr-12";
+    "self-end mr-4 lg:mr-48";
 
   return (
     <motion.div
@@ -36,13 +37,13 @@ const Card = ({ step, index, isActive }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.2 + 0.5 }}
       className={`
-        relative z-10 w-full max-w-[350px] p-6 rounded-2xl border transition-all duration-500
+        relative z-10 w-full max-w-[350px] lg:max-w-[400px] p-6 rounded-2xl border transition-all duration-500
         ${alignmentClass}
         ${isActive 
           ? 'bg-slate-800/80 border-amber-400/50 shadow-[0_0_30px_rgba(251,191,36,0.2)]' 
           : 'bg-slate-900/50 border-slate-700/50 hover:border-slate-600'
         }
-        backdrop-blur-md flex flex-col gap-3 group
+        backdrop-blur-xl flex flex-col gap-3 group
       `}
     >
       {/* Glow Effect Background */}
@@ -103,10 +104,10 @@ export default function ProcessFlow() {
     const startY = cardHeight / 2;
     const stepY = cardHeight + gapY;
 
-    // Define the "Snake" points
-    const p1 = { xStart: -50, xEnd: 350, y: startY }; // Left Step
-    const p2 = { xStart: 350, xEnd: 650, y: startY + stepY }; // Center Step
-    const p3 = { xStart: 650, xEnd: 1100, y: startY + stepY * 2 }; // Right Step
+    // Define the "Snake" points - Extended for more horizontal spread on desktop
+    const p1 = { xStart: -100, xEnd: 400, y: startY }; // Left Step - starts far left, extends right
+    const p2 = { xStart: 250, xEnd: 750, y: startY + stepY }; // Center Step - wide horizontal span
+    const p3 = { xStart: 600, xEnd: 1150, y: startY + stepY * 2 }; // Right Step - extends far right
 
     // Construct path
     // 1. Line through first card (Left)
@@ -132,16 +133,17 @@ export default function ProcessFlow() {
   const pathData = generatePath();
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c] text-slate-200 flex flex-col items-center justify-center p-8 overflow-hidden font-sans selection:bg-amber-500/30">
+    <div className="min-h-screen text-slate-200 flex flex-col items-center justify-center p-8 overflow-hidden font-sans selection:bg-amber-500/30">
       
-      <div className="mb-12 text-center z-10">
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600 mb-4 drop-shadow-sm">
-          Strategic Roadmap
-        </h1>
-        <p className="text-slate-400 max-w-lg mx-auto">
-          Our intelligent process flow automates the complex, illuminating the path from raw data to actionable security insights.
-        </p>
-      </div>
+            <div className="text-center mb-16 max-w-6xl mx-auto mt-32">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 animate-fade-in-up">
+                From Chaos to Clarity.
+                <span className="text-[#C39B65]"> Instantly.</span>
+              </h2>
+              <p className="text-xl text-slate-400 animate-fade-in-up stagger-1 max-w-4xl mx-auto">
+                Our agentic pipelines handle the heavy lifting so you can focus on strategy.
+              </p>
+            </div>
 
       <div className="relative w-full max-w-6xl flex justify-center">
         
@@ -173,7 +175,7 @@ export default function ProcessFlow() {
                 <path
                     d={pathData}
                     fill="none"
-                    stroke="#1e293b"
+                    stroke="#C39B65"
                     strokeWidth="4"
                     strokeDasharray="10 10"
                     strokeLinecap="round"

@@ -126,11 +126,15 @@ export default function AppHero() {
         const parent = containerRef.current.parentElement;
         if (parent) {
           const availableWidth = parent.clientWidth;
-          // Scale based on width, but also ensure it fits height if needed?
-          // For now, prioritize width fit as it's a vertical scroll page usually.
-          // Add some padding (e.g. 32px)
+          const availableHeight = parent.clientHeight;
+          
+          // Scale based on both width and height
+          // Add padding (32px horizontal, 64px vertical for py-8)
           const widthScale = Math.min(1, (availableWidth - 32) / VIEW_WIDTH);
-          setScale(widthScale);
+          const heightScale = Math.min(1, (availableHeight - 64) / VIEW_HEIGHT);
+          
+          // Use the smaller of the two to ensure it fits
+          setScale(Math.min(widthScale, heightScale));
         }
       }
     };
@@ -150,15 +154,15 @@ export default function AppHero() {
         -webkit-mask-image: linear-gradient(
           to bottom,
           transparent 0%,
-          black 15%,
-          black 50%,
+          black 5%,
+          black 85%,
           transparent 100%
         );
         mask-image: linear-gradient(
           to bottom,
           transparent 0%,
-          black 15%,
-          black 50%,
+          black 5%,
+          black 85%,
           transparent 100%
         );
         -webkit-mask-repeat: no-repeat;
@@ -272,20 +276,29 @@ export default function AppHero() {
   }, [animatedPaths, insightDelay]);
 
   return (
-    <div className="relative flex items-center justify-center w-full h-full overflow-hidden text-white">
+    <div className="relative flex items-center justify-center w-full min-h-screen py-8 overflow-hidden text-white -mt-64 md:mt-0">
       {/* Inject all styles */}
       <style>{styles}</style>
 
       {/* Main container for the visualization - Scaled for responsiveness */}
       <div
         ref={containerRef}
-        className="relative origin-center"
+        className="relative mx-auto"
         style={{
-          width: `${VIEW_WIDTH}px`,
-          height: `${VIEW_HEIGHT}px`,
-          transform: `scale(${scale}) translate3d(0,0,0)`, // Force hardware acceleration
+          width: `${VIEW_WIDTH * scale}px`,
+          height: `${VIEW_HEIGHT * scale}px`,
         }}
       >
+        {/* Inner wrapper that contains everything at base size, then scales */}
+        <div
+          className="absolute top-0 left-0 w-full h-full"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            width: `${VIEW_WIDTH}px`,
+            height: `${VIEW_HEIGHT}px`,
+          }}
+        >
         {/* SVG + lines, wrapped in edge fade mask */}
         <div className="absolute inset-0 edge-fade-mask pointer-events-none">
           <svg
@@ -442,6 +455,7 @@ export default function AppHero() {
           }}
         >
           <Lightbulb className="w-7 h-7 text-yellow-300" />
+        </div>
         </div>
       </div>
     </div>

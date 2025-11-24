@@ -18,6 +18,7 @@ import {
   SiNotion, SiClickup, SiGitlab, SiAirtable, SiGooglesheets, 
   SiDatadog, SiSnowflake
 } from 'react-icons/si';
+import ProcessFlow from "../components/ProcessFlow";
 
 const MockBar = ({ label, width, color }: { label: string, width: string, color: string }) => (
   <div className="group/bar">
@@ -574,6 +575,7 @@ export default function ScrollSnapPage() {
         {/* Content Section 2 */}
         <section className="snap-section py-24 px-6 relative">
           <SolutionsSection />
+          <ProcessFlow />
         </section>
 
         {/* Final Section */}
