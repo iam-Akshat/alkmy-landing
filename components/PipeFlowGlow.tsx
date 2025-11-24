@@ -277,7 +277,7 @@ export default function AppHero() {
   }, [animatedPaths, insightDelay]);
 
   return (
-    <div className="relative flex items-center justify-center w-full min-h-screen py-8 overflow-hidden text-white -mt-64 md:mt-0">
+    <div className="relative flex items-center justify-center w-full min-h-screen py-8 text-white -mt-64 md:mt-0">
       {/* Inject all styles */}
       <style>{styles}</style>
 
