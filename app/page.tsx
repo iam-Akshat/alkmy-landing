@@ -227,7 +227,7 @@ CompVisual.displayName = 'CompVisual';
 // --- MAIN COMPONENTS ---
 
 const SolutionsSection = memo(() => {
-  const [activeTab, setActiveTab] = useState('pm');
+  const [activeTab, setActiveTab] = useState<keyof typeof content>('pm');
 
   const content = {
     pm: {
@@ -283,14 +283,14 @@ const SolutionsSection = memo(() => {
               {Object.keys(content).map((key) => (
                 <button 
                   key={key}
-                  onClick={() => setActiveTab(key)}
+                  onClick={() => setActiveTab(key as keyof typeof content)}
                   className={`px-6 py-3 rounded-lg text-sm my-1 mx-1 font-bold transition-all whitespace-nowrap ${
                     activeTab === key 
                     ? 'bg-white text-slate-950 shadow-lg' 
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                   }`}
                 >
-                  {content[key].subtitle}
+                  {content[key as keyof typeof content].subtitle}
                 </button>
               ))}
            </div>
