@@ -747,20 +747,17 @@ export default function ScrollSnapPage() {
             </h2>
 
             <p className="max-w-2xl mb-10 text-lg text-slate-400 animate-fade-in-up stagger-1">
-              Enter your App Store or Google Play URL. We'll analyze your last 100 reviews
-              and email you one actionable insight. Free.
+              Ready to turn noisy customer feedback into clear, actionable product intelligence?
             </p>
 
-            <div className="flex flex-col items-center w-full max-w-xl gap-4 mb-6 sm:flex-row animate-fade-in-up stagger-2">
-              <input
-                type="text"
-                placeholder="https://apps.apple.com/app/..."
-                className="w-full px-6 py-4 text-white transition-all border border-slate-700 rounded-xl bg-slate-800/50 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500"
-              />
-              <button className="flex items-center justify-center w-full px-8 py-4 font-bold text-black transition-transform bg-white sm:w-auto rounded-xl hover:scale-105 active:scale-95 whitespace-nowrap">
-                Analyze Now
+            <div className="flex justify-center w-full max-w-xl mb-6 animate-fade-in-up stagger-2">
+              <a
+                href="https://app.askalkmy.com"
+                className="flex items-center justify-center w-full px-8 py-4 font-bold text-black transition-transform bg-white rounded-xl hover:scale-105 active:scale-95 whitespace-nowrap sm:w-auto"
+              >
+                Get started
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
+              </a>
             </div>
 
             <p className="text-sm text-slate-500 animate-fade-in-up stagger-3">
