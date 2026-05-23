@@ -33,184 +33,169 @@ export const Footer = memo(() => {
             </a>
             <div className="mt-4 lg:max-w-sm">
               <p className="text-sm text-gray-600">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam.
+                Alkmy AI is the agentic stack for modern product teams. Automatically 
+                consolidate, analyze, and act on user feedback from all channels to ship 
+                features with absolute certainty.
               </p>
               <p className="mt-4 text-sm text-gray-600">
-                Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                beatae vitae dicta sunt explicabo.
+                Turn the shattered voice of your customers into structured insights and 
+                eliminate competitive blindness.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
             <div>
               <p className="font-semibold tracking-wide text-gray-800">
-                Category
+                Product
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="/"
+                    href="#solutions"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    News
+                    Solutions
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    World
+                    Features
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Games
+                    Integrations
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    References
+                    Pricing
                   </a>
                 </li>
               </ul>
             </div>
             <div>
               <p className="font-semibold tracking-wide text-gray-800">
-                Cherry
+                Resources
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Web
+                    Documentation
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    eCommerce
+                    Guides
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Business
+                    API Status
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Entertainment
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
-                  >
-                    Portfolio
+                    Changelog
                   </a>
                 </li>
               </ul>
             </div>
             <div>
               <p className="font-semibold tracking-wide text-gray-800">
-                Apples
+                Company
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Media
+                    About Us
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Brochure
+                    Careers
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Nonprofit
+                    Contact
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Educational
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
-                  >
-                    Projects
+                    Blog
                   </a>
                 </li>
               </ul>
             </div>
             <div>
               <p className="font-semibold tracking-wide text-gray-800">
-                Business
+                Legal
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Infopreneur
+                    Privacy Policy
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Personal
+                    Terms of Service
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Wiki
+                    Security
                   </a>
                 </li>
                 <li>
                   <a
-                    href="/"
+                    href="#"
                     className="transition-colors duration-300 text-gray-600 hover:text-gray-900"
                   >
-                    Forum
+                    Trust Center
                   </a>
                 </li>
               </ul>
@@ -219,7 +204,7 @@ export const Footer = memo(() => {
         </div>
         <div className="flex flex-col justify-between pt-5 pb-10 border-t border-gray-200 sm:flex-row">
           <p className="text-sm text-gray-600">
-            © Copyright 2020 Lorem Inc. All rights reserved.
+            © {new Date().getFullYear()} Alkmy AI. All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
             <a
